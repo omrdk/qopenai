@@ -1,0 +1,44 @@
+#include "QOpenAIAudio.h"
+
+
+QOpenAIAudio::QOpenAIAudio(QObject *parent) : _audioRecorder(new AudioRecorder(this))
+{
+    connect(_audioRecorder, &AudioRecorder::recordingFinished, this, [&](const QUrl& absFilePath){
+        this->sendRequest(absFilePath.toString());
+    });
+}
+
+void QOpenAIAudio::sendRequest(const QString &absFilePath) {
+    _file = absFilePath;
+    QNetworkRequest request(getUrl(_endPoint));
+    request.setRawHeader("Authorization", ("Bearer " + OPENAI_API_KEY).toUtf8());
+    QHttpMultiPart *multiPart = new QHttpMultiPart(QHttpMultiPart::FormDataType);
+    QHttpPart modelPart;
+    modelPart.setHeader(QNetworkRequest::ContentTypeHeader, "text/plain");
+    modelPart.setHeader(QNetworkRequest::ContentDispositionHeader, "form-data; name=\"model\"");
+    modelPart.setBody(_model.toUtf8());
+    QHttpPart filePart;
+    filePart.setHeader(QNetworkRequest::ContentTypeHeader, "audio/wav");
+    filePart.setHeader(QNetworkRequest::ContentDispositionHeader, "form-data; name=\"file\"; filename=\"recorded_voice.m4a\"");
+    QFile *file = new QFile(_file.mid(7) + ".m4a");
+    file->open(QIODevice::ReadOnly);
+    filePart.setBodyDevice(file);
+    file->setParent(multiPart);
+    multiPart->append(filePart);
+    multiPart->append(modelPart);
+    QNetworkReply *reply = _networkManager->post(request, multiPart);
+    multiPart->setParent(reply);
+    connect(reply, &QNetworkReply::finished, this, [this, file, reply]() {
+        file->close(); // move this up after appending filepart
+        qDebug() << reply->error();
+        if (reply->error() == QNetworkReply::NoError) {
+            const QJsonDocument responseJson = QJsonDocument::fromJson(reply->readAll());
+            const QString generatedText = responseJson.object().value("text").toString();
+            emit requestFinished(generatedText);
+        } else {
+            qDebug() << reply->errorString();
+            emit requestError(reply->errorString());
+        }
+        reply->deleteLater();
+    });
+}

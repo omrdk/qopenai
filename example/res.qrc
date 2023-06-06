@@ -1,0 +1,11 @@
+<RCC>
+    <qresource prefix="/">
+        <file alias="SEND">icons/send.png</file>
+        <file alias="OPTIONS">icons/options.png</file>
+        <file alias="TEXT">icons/text.png</file>
+        <file alias="MICROPHONE">icons/microphone.png</file>
+        <file alias="IMAGE">icons/image.png</file>
+        <file alias="ACCEPT">icons/accept.png</file>
+        <file alias="CANCEL">icons/cancel.png</file>
+    </qresource>
+</RCC>
