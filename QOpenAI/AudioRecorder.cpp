@@ -23,7 +23,9 @@ AudioRecorder::AudioRecorder(QObject *parent)
     });
 
     connect(&_audioRecorder, &QMediaRecorder::errorOccurred, this, [&](QMediaRecorder::Error error, const QString &errorString) {
-        // Is _audioRecorder->stop() call needed here?
+        if(_audioRecorder.recorderState() != QMediaRecorder::StoppedState) {
+            _audioRecorder.stop();
+        }
         qDebug() << "'Error:" << error << " " << errorString;
     });
 }
@@ -31,7 +33,6 @@ AudioRecorder::AudioRecorder(QObject *parent)
 void AudioRecorder::toggleRecord() {
     if (_audioRecorder.recorderState() == QMediaRecorder::StoppedState) {
         _captureSession.audioInput()->setDevice(QVariant(QString()).value<QAudioDevice>());
-        //_captureSession.audioInput()->setVolume(50);
         QMediaFormat format;
         format.setAudioCodec(QMediaFormat::AudioCodec::Unspecified);
         format.setFileFormat(QMediaFormat::FileFormat::UnspecifiedFormat);
@@ -41,11 +42,9 @@ void AudioRecorder::toggleRecord() {
         _audioRecorder.setAudioBitRate(0);
         _audioRecorder.setQuality(QMediaRecorder::Quality::VeryHighQuality);
         _audioRecorder.setEncodingMode(QMediaRecorder::ConstantQualityEncoding);
-
         #ifdef Q_OS_IOS
         QFile::remove(QStandardPaths::writableLocation(QStandardPaths::TempLocation) + "/recorded_voice.m4a");
         #endif
-
         _audioRecorder.setOutputLocation(QUrl::fromLocalFile(QStandardPaths::writableLocation(QStandardPaths::TempLocation) + "/recorded_voice"));
         _audioRecorder.record();
         _isRecording = true;

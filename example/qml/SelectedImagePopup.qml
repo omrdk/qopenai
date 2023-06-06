@@ -26,7 +26,7 @@ PopupItem {
 
       source: root.source
 
-      enabled: true //root.alphaChannelCanBeModified
+      enabled: root.alphaChannelCanBeModified
     }
 
     RowLayout {
@@ -64,7 +64,6 @@ PopupItem {
 
         onClicked: {
           root.acceptClicked()
-          root.close()
         }
       }
     }

@@ -12,7 +12,7 @@ void QOpenAIEdits::sendRequest(const QString &content) {
     request.setRawHeader("Authorization", ("Bearer " + OPENAI_API_KEY).toUtf8());
     QJsonObject body;
     body.insert("model", _model);
-    body.insert("input", content); // TODO delete imput class member
+    body.insert("input", content);
     body.insert("instruction", _instruction);
     body.insert("temperature", _temperature);
     body.insert("top_p", _topP);

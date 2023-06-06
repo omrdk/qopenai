@@ -134,7 +134,7 @@ Rectangle {
     id: loadImage
 
     title: "Select an image"
-    nameFilters: ["Image files (*.png *.jpg *.jpeg)", "All files (*.)"]
+    nameFilters: ["Image files (*.png)", "All files (*.)"]
     currentFolder: StandardPaths.standardLocations(StandardPaths.PicturesLocation)[0]
 
     onAccepted: {
@@ -161,6 +161,9 @@ Rectangle {
     alphaChannelCanBeModified: endPoints.currentEndpoint === QOpenAI.ImageEdits
 
     onAcceptClicked: {
+      if (endPoints.currentEndpoint === QOpenAI.ImageEdits && instruction.text === "") {
+        return
+      }
       switch (endPoints.currentEndpoint) {
       case QOpenAI.ImageEdits:
         openAIImageEdits.image = source
@@ -176,6 +179,7 @@ Rectangle {
       } else {
         source = ""
       }
+      close()
     }
 
     onCancelClicked: {

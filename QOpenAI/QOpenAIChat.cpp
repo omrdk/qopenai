@@ -14,7 +14,7 @@ void QOpenAIChat::sendRequest(const QString &content) {
     body.insert("model", _model);
     QJsonArray messagesBranch;
     const auto messages = _messageModel->getMessages();
-    for(auto message: messages) { // do not insert message if role is undefined, there is no system messages yet since user role can override it easily
+    for(auto message: messages) { // do not insert message if role is undefined, there is yet to be system messages since user role can override it easily
         QJsonObject branch;
         branch.insert("role", message->getRoleString());
         qDebug() << message->getContent();

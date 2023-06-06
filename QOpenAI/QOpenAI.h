@@ -30,9 +30,7 @@ public:
     };
     Q_ENUM(EndPoints)
 
-    // enum class RequestErrors {}
-
-    explicit QOpenAI(QObject *parent = nullptr);; // take instance in every derived class not here, because the usage may be wrong (for _networkManager)
+    explicit QOpenAI(QObject *parent = nullptr);
     virtual ~QOpenAI() {};
     virtual void sendRequest(const QString& content) = 0;
 

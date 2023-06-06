@@ -66,7 +66,7 @@ if(WIN32)
     set_target_properties(appexample PROPERTIES WIN32_EXECUTABLE TRUE)
 endif()
 
-target_link_libraries(appexample PRIVATE Qt::Quick Qt::Core Qt::Network Qt::Multimedia Qt::Gui Qt::CorePrivate  qopenaiplugin #[[qopenai]]) # uncomment if you ll use as a library
+target_link_libraries(appexample PRIVATE Qt::Quick Qt::Core Qt::Network Qt::Multimedia Qt::Gui qopenaiplugin #[[qopenai]]) # uncomment if you ll use as a library
 
 # uncomment if you will use QOpenAI as a library
 #target_include_directories(appexample PUBLIC ${CMAKE_SOURCE_DIR}/../QOpenAI "${CMAKE_BINARY_DIR}/QOpenAI")
