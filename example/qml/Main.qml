@@ -92,7 +92,7 @@ Window {
 
     endPoint: QOpenAI.Edits
     model: "text-davinci-edit-001" // code-davinci-edit-001
-    input: ""
+    input: "" // NOOP
     instruction: chatPage.instructionItem.text
     n: 1
     temperature: 1.0

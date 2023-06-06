@@ -12,7 +12,6 @@ class QOpenAIMessageModel : public QAbstractListModel
 {
     Q_OBJECT
     Q_PROPERTY(QList<QOpenAIMessage*> messages READ getMessages WRITE setMessages NOTIFY messagesChanged)
-    //Q_PROPERTY(QQmlListProperty<QOpenAIMessage> messages READ getMessages)
     QML_ELEMENT
 
 public:

@@ -1,6 +1,6 @@
 #include "QOpenAI.h"
 
-QOpenAI::QOpenAI(QObject *parent) : _networkManager(new QNetworkAccessManager(this)), _messageModel(new QOpenAIMessageModel(this)) { // TODO check ctors and dtors if there is any m leak
+QOpenAI::QOpenAI(QObject *parent) : _networkManager(new QNetworkAccessManager(this)), _messageModel(new QOpenAIMessageModel(this)) {
     ;
 }
 
