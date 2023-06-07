@@ -1,5 +1,4 @@
 #include "InteractiveImage.h"
-#include "qimagewriter.h"
 
 #include <QRect>
 #include <QFileInfo>

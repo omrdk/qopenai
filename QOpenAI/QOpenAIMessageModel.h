@@ -3,10 +3,9 @@
 #pragma once
 
 #include <QAbstractListModel>
+#include <QtQml>
 
-#include "qqmlintegration.h"
-
-#include <QOpenAIMessage.h>
+#include "QOpenAIMessage.h"
 
 class QOpenAIMessageModel : public QAbstractListModel
 {

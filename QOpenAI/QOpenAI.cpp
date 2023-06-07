@@ -1,7 +1,7 @@
 #include "QOpenAI.h"
 
 QOpenAI::QOpenAI(QObject *parent) : _networkManager(new QNetworkAccessManager(this)), _messageModel(new QOpenAIMessageModel(this)) {
-    ;
+
 }
 
 QString QOpenAI::getUrl(EndPoints endPoint) {

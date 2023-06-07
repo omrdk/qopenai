@@ -1,8 +1,6 @@
 #include "QOpenAIAudio.h"
 
-
-QOpenAIAudio::QOpenAIAudio(QObject *parent) : _audioRecorder(new AudioRecorder(this))
-{
+QOpenAIAudio::QOpenAIAudio(QObject *parent) : _audioRecorder(new AudioRecorder(this)) {
     connect(_audioRecorder, &AudioRecorder::recordingFinished, this, [&](const QUrl& absFilePath){
         this->sendRequest(absFilePath.toString());
     });

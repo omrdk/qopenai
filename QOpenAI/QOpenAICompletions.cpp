@@ -1,8 +1,6 @@
 #include "QOpenAICompletions.h"
 
-QOpenAICompletions::QOpenAICompletions(QObject *parent)
-    : QOpenAI{parent}
-{
+QOpenAICompletions::QOpenAICompletions(QObject *parent) : QOpenAI{parent} {
 
 }
 

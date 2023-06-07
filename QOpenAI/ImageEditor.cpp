@@ -1,8 +1,10 @@
 #include "ImageEditor.h"
 
-ImageEditor::ImageEditor(QObject *parent)
-    : QObject{parent}
-{
+#include <QImageWriter>
+#include <QImageReader>
+#include <QImage>
+
+ImageEditor::ImageEditor(QObject *parent) : QObject{parent} {
 
 }
 

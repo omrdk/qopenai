@@ -1,8 +1,6 @@
 #include "QOpenAIImageEdits.h"
 
-QOpenAIImageEdits::QOpenAIImageEdits(QObject *parent)
-    : QOpenAI{parent}
-{
+QOpenAIImageEdits::QOpenAIImageEdits(QObject *parent) : QOpenAI{parent} {
 
 }
 
@@ -62,7 +60,6 @@ void QOpenAIImageEdits::sendRequest(const QString &prompt) {
                 emit requestFinished(url);
             }
         } else {
-            qDebug() << "Network error: " << reply->error();
             emit requestError(reply->errorString());
         }
         reply->deleteLater();

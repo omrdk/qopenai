@@ -4,9 +4,6 @@
 #include "QOpenAI.h"
 #include "ImageEditor.h"
 
-#include <QPixmap>
-#include <QImage>
-
 class QOpenAIImageEdits : public QOpenAI
 {
     Q_OBJECT

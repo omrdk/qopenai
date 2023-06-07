@@ -2,13 +2,11 @@
 #define AUDIORECORDER_H
 #pragma once
 
-#include <QStandardPaths>
 #include <QObject>
-
+#include <QtQml>
 #include <QMediaCaptureSession>
 #include <QMediaRecorder>
 #include <QUrl>
-#include <QtQml>
 
 class AudioRecorder : public QObject
 {

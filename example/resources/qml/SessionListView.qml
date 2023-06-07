@@ -1,7 +1,7 @@
 import QtQuick
 import QtQuick.Controls
 
-import QOpenAI 1.0
+import QOpenAI
 
 ListView {
   id: root

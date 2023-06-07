@@ -1,7 +1,6 @@
 #ifndef INTERACTIVEIMAGE_H
 #define INTERACTIVEIMAGE_H
 
-
 #include <QQuickPaintedItem>
 #include <QObject>
 #include <QImage>
