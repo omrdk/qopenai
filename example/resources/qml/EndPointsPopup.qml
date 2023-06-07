@@ -2,8 +2,8 @@ import QtQuick
 import QtQuick.Controls
 import QtQuick.Layouts
 
-import example 1.0
-import QOpenAI 1.0
+import example
+import QOpenAI
 
 PopupItem {
   id: root

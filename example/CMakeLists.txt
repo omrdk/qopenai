@@ -8,13 +8,13 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 find_package(Qt6 6.2 REQUIRED COMPONENTS Quick Core Network Multimedia Gui)
 
+set(SOURCES src/main.cpp)
+
 if(IOS)
-    set(SOURCES main.cpp ImagePicker.mm ImagePicker.h)
-else()
-    set(SOURCES main.cpp)
+    list(APPEND SOURCES src/ImagePicker.mm inc/ImagePicker.h)
 endif()
 
-qt_add_resources(SOURCES res.qrc)
+qt_add_resources(SOURCES resources/icons.qrc)
 
 qt_add_executable(appexample ${SOURCES})
 
@@ -22,23 +22,25 @@ qt6_add_qml_module(appexample
     URI ${PROJECT_NAME}
     VERSION 1.0
     QML_FILES
-        qml/Main.qml
-        qml/SessionListView.qml
-        qml/ChatInput.qml
-        qml/ChatPage.qml
-        qml/EndPointsPopup.qml
-        qml/IconButton.qml
-        qml/IconItem.qml
-        qml/PopupItem.qml
-        qml/TextAreaItem.qml
-        qml/SelectedImagePopup.qml
+        resources/qml/Main.qml
+        resources/qml/SessionListView.qml
+        resources/qml/ChatInput.qml
+        resources/qml/ChatPage.qml
+        resources/qml/EndPointsPopup.qml
+        resources/qml/IconButton.qml
+        resources/qml/IconItem.qml
+        resources/qml/PopupItem.qml
+        resources/qml/TextAreaItem.qml
+        resources/qml/SelectedImagePopup.qml
     SOURCES
-        EventInstaller.h
-        InteractiveImage.cpp
-        InteractiveImage.h
+        src/InteractiveImage.cpp
+        inc/InteractiveImage.h
+        inc/EventInstaller.h
 )
 
-add_subdirectory(${CMAKE_SOURCE_DIR}/../QOpenAI ${CMAKE_BINARY_DIR}/QOpenAI)
+include_directories(inc)
+
+add_subdirectory(${CMAKE_SOURCE_DIR}/../qopenai ${CMAKE_BINARY_DIR}/qopenai)
 
 if(APPLE)
     set_target_properties(appexample PROPERTIES
@@ -66,14 +68,11 @@ if(WIN32)
     set_target_properties(appexample PROPERTIES WIN32_EXECUTABLE TRUE)
 endif()
 
-target_link_libraries(appexample PRIVATE Qt::Quick Qt::Core Qt::Network Qt::Multimedia Qt::Gui qopenaiplugin #[[qopenai]]) # uncomment if you ll use as a library
+# uncomment if you'll instantiate openai classes in C++
+target_link_libraries(appexample PRIVATE Qt::Quick Qt::Core Qt::Network Qt::Multimedia Qt::Gui qopenaiplugin qopenai)
+target_include_directories(appexample PUBLIC ${CMAKE_SOURCE_DIR}/../qopenai "${CMAKE_BINARY_DIR}/qopenai")
 
-# uncomment if you will use QOpenAI as a library
-#target_include_directories(appexample PUBLIC ${CMAKE_SOURCE_DIR}/../QOpenAI "${CMAKE_BINARY_DIR}/QOpenAI")
-
-install(TARGETS appexample
-    BUNDLE DESTINATION .
-    LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR})
+install(TARGETS appexample BUNDLE DESTINATION . LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR})
 
 
 

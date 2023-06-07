@@ -1,8 +1,6 @@
 #include "QOpenAIEdits.h"
 
-QOpenAIEdits::QOpenAIEdits(QObject *parent)
-    : QOpenAI{parent}
-{
+QOpenAIEdits::QOpenAIEdits(QObject *parent) : QOpenAI{parent} {
 
 }
 

@@ -2,8 +2,6 @@
 #include <QGuiApplication>
 #include <QQmlApplicationEngine>
 
-#include <QQmlContext>
-
 #ifdef Q_OS_IOS
 #include "ImagePicker.h"
 #endif
@@ -23,7 +21,7 @@ int main(int argc, char *argv[])
     qmlRegisterType<ImagePicker>("ImagePicker", 1, 0, "ImagePicker");
     #endif
 
-    engine.load(QStringLiteral("qrc:/example/qml/Main.qml"));
+    engine.load(QStringLiteral("qrc:/example/resources/qml/Main.qml"));
 
     if (engine.rootObjects().isEmpty()) {
         return -1;

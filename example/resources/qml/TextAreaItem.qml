@@ -20,7 +20,6 @@ TextArea {
 
     anchors.centerIn: parent
 
-    text: ""
     color: "gray"
     visible: root.text.length === 0
   }

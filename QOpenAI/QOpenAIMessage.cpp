@@ -1,7 +1,6 @@
 #include "QOpenAIMessage.h"
 
-QOpenAIMessage::QOpenAIMessage(const QString &content, Role role, QObject *parent) : _content(content), _role(role), QObject{parent}
-{
+QOpenAIMessage::QOpenAIMessage(const QString &content, Role role, QObject *parent) : _content(content), _role(role), QObject{parent} {
 
 }
 

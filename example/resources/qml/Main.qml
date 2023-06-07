@@ -3,9 +3,8 @@ import QtQuick.Window
 import QtQuick.Controls
 import Qt5Compat.GraphicalEffects
 
-import example 1.0
-
-import QOpenAI 1.0
+import example
+import QOpenAI
 
 Window {
   id: appWindow

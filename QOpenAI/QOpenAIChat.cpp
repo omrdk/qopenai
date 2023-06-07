@@ -1,8 +1,6 @@
 #include "QOpenAIChat.h"
 
-QOpenAIChat::QOpenAIChat(QObject *parent)
-    : QOpenAI{parent}
-{
+QOpenAIChat::QOpenAIChat(QObject *parent) : QOpenAI{parent} {
 
 }
 
@@ -14,7 +12,7 @@ void QOpenAIChat::sendRequest(const QString &content) {
     body.insert("model", _model);
     QJsonArray messagesBranch;
     const auto messages = _messageModel->getMessages();
-    for(auto message: messages) { // do not insert message if role is undefined, there is yet to be system messages since user role can override it easily
+    for(auto message: messages) { // do not insert message if role is undefined, there is yet to be system messages since user role can override it easily for gpt-3.5-turbo model
         QJsonObject branch;
         branch.insert("role", message->getRoleString());
         qDebug() << message->getContent();

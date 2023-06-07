@@ -4,9 +4,8 @@ import QtQuick.Controls
 import QtQuick.Layouts
 import QtQuick.Dialogs
 
-import example 1.0
-
-import QOpenAI 1.0
+import example
+import QOpenAI
 
 Rectangle {
   id: root

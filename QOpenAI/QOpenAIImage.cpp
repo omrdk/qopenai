@@ -1,8 +1,6 @@
 #include "QOpenAIImage.h"
 
-QOpenAIImage::QOpenAIImage(QObject *parent)
-    : QOpenAI{parent}
-{
+QOpenAIImage::QOpenAIImage(QObject *parent) : QOpenAI{parent} {
 
 }
 

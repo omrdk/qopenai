@@ -5,10 +5,6 @@
 #include <QObject>
 #include <QtQml>
 
-#include <QImageWriter>
-#include <QImageReader>
-#include <QImage>
-
 class ImageEditor : public QObject
 {
     Q_OBJECT

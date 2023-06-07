@@ -3,16 +3,13 @@
 #include <QAudioInput>
 #include <QAudioDevice>
 #include <QMediaFormat>
-#include <QFileInfo>
+#include <QStandardPaths>
 
-AudioRecorder::AudioRecorder(QObject *parent)
-    : QObject{parent}
-{
+AudioRecorder::AudioRecorder(QObject *parent) : QObject{parent} {
     _captureSession.setRecorder(&_audioRecorder);
     _captureSession.setAudioInput(new QAudioInput(this));
 
     connect(&_audioRecorder, &QMediaRecorder::recorderStateChanged, this, [&](QMediaRecorder::RecorderState state) {
-        qDebug() << "'State:" << state;
         switch (state) {
         case QMediaRecorder::RecorderState::StoppedState:
             emit recordingFinished(QUrl::fromLocalFile(QStandardPaths::writableLocation(QStandardPaths::TempLocation) + "/recorded_voice"));

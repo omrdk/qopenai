@@ -1,12 +1,8 @@
 #include "QOpenAIImageVariations.h"
 
 #include <QImageReader>
-#include <QDebug>
 
-QOpenAIImageVariations::QOpenAIImageVariations(QObject *parent)
-    : QOpenAI{parent}
-{
-
+QOpenAIImageVariations::QOpenAIImageVariations(QObject *parent) : QOpenAI{parent} {
 }
 
 void QOpenAIImageVariations::sendRequest(const QString &image) {
@@ -49,7 +45,6 @@ void QOpenAIImageVariations::sendRequest(const QString &image) {
                 emit requestFinished(url);
             }
         } else {
-            qDebug() << "Network error: " << reply->error();
             emit requestError(reply->errorString());
         }
         reply->deleteLater();
