@@ -33,10 +33,6 @@ qt6_add_qml_module(${PROJECT_NAME}
         QOpenAIMessage.h
         QOpenAIMessageModel.cpp
         QOpenAIMessageModel.h
-        AudioRecorder.cpp
-        AudioRecorder.h
-        ImageEditor.cpp
-        ImageEditor.h
     RESOURCE_PREFIX /
 )
 

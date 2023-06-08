@@ -52,7 +52,8 @@ Window {
     logitBias: []
     user: ""
 
-    onRequestFinished: function (content) {
+    onRequestFinished: function (jsonObject) {
+      const content = jsonObject.choices[0].text
       openAICompletions.messageModel.insertMessage(content, QOpenAIMessage.Role.ASSISTANT)
     }
 
@@ -77,7 +78,8 @@ Window {
     logitBias: []
     user: ""
 
-    onRequestFinished: function (content) {
+    onRequestFinished: function (jsonObject) {
+      const content = jsonObject.choices[0].message.content
       openAIChatCompletions.messageModel.insertMessage(content, QOpenAIMessage.Role.ASSISTANT)
     }
 
@@ -97,7 +99,8 @@ Window {
     temperature: 1.0
     topP: 1.0
 
-    onRequestFinished: function (content) {
+    onRequestFinished: function (jsonObject) {
+      const content = jsonObject.choices[0].text
       openAIEdits.messageModel.insertMessage(content, QOpenAIMessage.Role.ASSISTANT)
     }
 
@@ -124,7 +127,8 @@ Window {
     responseFormat: "json"
     temperature: 1.0
 
-    onRequestFinished: function (content) {
+    onRequestFinished: function (jsonObject) {
+      const content = jsonObject.text
       openAIAudio.messageModel.insertMessage(content, QOpenAIMessage.Role.ASSISTANT)
     }
 
@@ -138,13 +142,17 @@ Window {
 
     endPoint: QOpenAI.ImageGenerations
     prompt: "" // NOOP
-    n: 1
+    n: 2
     imageSize: "512x512"
     responseFormat: "url"
     user: ""
 
-    onRequestFinished: function (content) {
-      openAIImage.messageModel.insertMessage(content, QOpenAIMessage.Role.ASSISTANT)
+    onRequestFinished: function (jsonObject) {
+      let imageUrls = jsonObject.data
+      for (var i = 0; i < imageUrls.length; i++) {
+        let url = imageUrls[i].url
+        openAIImage.messageModel.insertMessage(url, QOpenAIMessage.Role.ASSISTANT)
+      }
     }
 
     onRequestError: function (error) {
@@ -159,13 +167,17 @@ Window {
     image: "" // NOOP
     mask: "" // NOOP
     prompt: chatPage.inputItem.textAreaItem.text
-    n: 1
+    n: 2
     imageSize: "512x512"
     responseFormat: "url"
     user: ""
 
-    onRequestFinished: function (content) {
-      openAIImageEdits.messageModel.insertMessage(content, QOpenAIMessage.Role.ASSISTANT)
+    onRequestFinished: function (jsonObject) {
+      let imageUrls = jsonObject.data
+      for (var i = 0; i < imageUrls.length; i++) {
+        let url = imageUrls[i].url
+        openAIImageEdits.messageModel.insertMessage(url, QOpenAIMessage.Role.ASSISTANT)
+      }
     }
 
     onRequestError: function (error) {
@@ -178,13 +190,17 @@ Window {
 
     endPoint: QOpenAI.ImageVariations
     image: "" // NOOP
-    n: 1
+    n: 2
     imageSize: "512x512"
     responseFormat: "url"
     user: ""
 
-    onRequestFinished: function (content) {
-      openAIImageVariations.messageModel.insertMessage(content, QOpenAIMessage.Role.ASSISTANT)
+    onRequestFinished: function (jsonObject) {
+      let imageUrls = jsonObject.data
+      for (var i = 0; i < imageUrls.length; i++) {
+        let url = imageUrls[i].url
+        openAIImageVariations.messageModel.insertMessage(url, QOpenAIMessage.Role.ASSISTANT)
+      }
     }
 
     onRequestError: function (error) {

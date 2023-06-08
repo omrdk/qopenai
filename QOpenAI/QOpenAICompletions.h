@@ -1,5 +1,6 @@
 #ifndef QOPENAICOMPLETIONS_H
 #define QOPENAICOMPLETIONS_H
+#pragma once
 
 #include "QOpenAI.h"
 
@@ -27,15 +28,15 @@ class QOpenAICompletions : public QOpenAI
 public:
     explicit QOpenAICompletions(QObject *parent = nullptr);
 
-    Q_INVOKABLE void sendRequest(const QString& content) override;;
+    Q_INVOKABLE void sendRequest(const QString& prompt) override;;
 
 private:
     QString _model = "";
     QString _prompt = "";
     QString _suffix = "";
-    int _maxTokens = 16;
-    float _temperature = 1.0;
-    float _topP = 1.0;
+    int _maxTokens = 0;
+    float _temperature = 0.0;
+    float _topP = 0.0;
     int _n = 1;
     bool _stream = false;
     int _logProbs = 0;

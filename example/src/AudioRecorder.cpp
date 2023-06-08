@@ -11,9 +11,11 @@ AudioRecorder::AudioRecorder(QObject *parent) : QObject{parent} {
 
     connect(&_audioRecorder, &QMediaRecorder::recorderStateChanged, this, [&](QMediaRecorder::RecorderState state) {
         switch (state) {
-        case QMediaRecorder::RecorderState::StoppedState:
-            emit recordingFinished(QUrl::fromLocalFile(QStandardPaths::writableLocation(QStandardPaths::TempLocation) + "/recorded_voice"));
+        case QMediaRecorder::RecorderState::StoppedState: {
+            QString audioFilePath = QUrl::fromLocalFile(QStandardPaths::writableLocation(QStandardPaths::TempLocation) + "/recorded_voice").toString();
+            emit recordingFinished(audioFilePath);
             break;
+        }
         default:
             break;
         }

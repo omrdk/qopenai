@@ -12,7 +12,7 @@ class AudioRecorder : public QObject
 {
     Q_OBJECT
     Q_PROPERTY(bool isRecording MEMBER _isRecording NOTIFY isRecordingChanged)
-    QML_UNCREATABLE("Not creatable")
+    QML_ELEMENT
 
 public:
     explicit AudioRecorder(QObject *parent = nullptr);
@@ -26,7 +26,7 @@ private:
 
 signals:
     void emptySignal();
-    void recordingFinished(const QUrl& absFilePath);
+    void recordingFinished(const QString& audioFilePath); // it was url
     void isRecordingChanged();
 };
 

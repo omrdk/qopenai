@@ -5,6 +5,7 @@ QOpenAIChat::QOpenAIChat(QObject *parent) : QOpenAI{parent} {
 }
 
 void QOpenAIChat::sendRequest(const QString &content) {
+    _messageModel->insertMessage(content, QOpenAIMessage::Role::USER);
     QNetworkRequest request(getUrl(_endPoint));
     request.setHeader(QNetworkRequest::ContentTypeHeader, "application/json");
     request.setRawHeader("Authorization", ("Bearer " + OPENAI_API_KEY).toUtf8());
@@ -12,12 +13,10 @@ void QOpenAIChat::sendRequest(const QString &content) {
     body.insert("model", _model);
     QJsonArray messagesBranch;
     const auto messages = _messageModel->getMessages();
-    for(auto message: messages) { // do not insert message if role is undefined, there is yet to be system messages since user role can override it easily for gpt-3.5-turbo model
+    for(auto message: messages) {
         QJsonObject branch;
         branch.insert("role", message->getRoleString());
-        qDebug() << message->getContent();
         branch.insert("content", message->getContent());
-        //branch.insert("name", "John_Doe");
         messagesBranch.append(branch);
     }
     body.insert("messages", messagesBranch);
@@ -29,7 +28,7 @@ void QOpenAIChat::sendRequest(const QString &content) {
     body.insert("max_tokens", _maxTokens);
     body.insert("presence_penalty", _presencePenalty);
     body.insert("frequency_penalty", _frequencyPenalty);
-    //body.insert("logit_bias", _logitBias);
+    body.insert("logit_bias", QJsonObject::fromVariantMap(_logitBias));
     body.insert("user", _user);
     QJsonDocument json;
     json.setObject(body);
@@ -37,10 +36,8 @@ void QOpenAIChat::sendRequest(const QString &content) {
     QNetworkReply *reply = _networkManager->post(request, jsonBytes);
     connect(reply, &QNetworkReply::finished, this, [this, reply]() {
         if (reply->error() == QNetworkReply::NoError) {
-            QByteArray response = reply->readAll();
-            QJsonDocument responseJson = QJsonDocument::fromJson(response);
-            QString content = responseJson.object().value("choices").toArray()[0].toObject().value("message").toObject().value("content").toString();
-            emit requestFinished(content);
+            QJsonObject response = QJsonDocument::fromJson(reply->readAll()).object();
+            emit requestFinished(response);
         } else {
             emit requestError(reply->errorString());
         }

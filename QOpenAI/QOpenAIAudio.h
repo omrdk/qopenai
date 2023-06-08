@@ -3,7 +3,6 @@
 #pragma once
 
 #include "QOpenAI.h"
-#include "AudioRecorder.h"
 
 class QOpenAIAudio : public QOpenAI
 {
@@ -13,7 +12,6 @@ class QOpenAIAudio : public QOpenAI
     Q_PROPERTY(QString prompt MEMBER _prompt NOTIFY promptChanged);
     Q_PROPERTY(QString responseFormat MEMBER _responseFormat NOTIFY responseFormatChanged);
     Q_PROPERTY(float temperature MEMBER _temperature NOTIFY temperatureChanged);
-    Q_PROPERTY(AudioRecorder* audioRecorder MEMBER _audioRecorder NOTIFY audioRecorderChanged)
     QML_ELEMENT
 
 public:
@@ -27,8 +25,6 @@ private:
     QString _prompt = "";
     QString _responseFormat = "";
     float _temperature = 1.0;
-
-    AudioRecorder* _audioRecorder = nullptr;
 
 signals:
     void fileChanged();

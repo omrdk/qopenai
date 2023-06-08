@@ -79,20 +79,15 @@ Rectangle {
       Layout.fillWidth: true
       Layout.margins: 5
 
-      audioRecording: openAIAudio.audioRecorder.isRecording
-
       onMessageSent: function (message) {
         switch (endPoints.currentEndpoint) {
         case QOpenAI.Completions:
-          openAICompletions.messageModel.insertMessage(message, QOpenAIMessage.Role.UNDEFINED)
           openAICompletions.sendRequest(message)
           break
         case QOpenAI.ChatCompletions:
-          openAIChatCompletions.messageModel.insertMessage(message, QOpenAIMessage.Role.USER)
           openAIChatCompletions.sendRequest(message)
           break
         case QOpenAI.Edits:
-          openAIEdits.messageModel.insertMessage(message, QOpenAIMessage.Role.UNDEFINED)
           openAIEdits.sendRequest(message)
           break
         case QOpenAI.Transcriptions:
@@ -102,7 +97,6 @@ Rectangle {
         case QOpenAI.ImageGenerations:
         case QOpenAI.ImageEdits:
         case QOpenAI.ImageVariations:
-          openAIImage.messageModel.insertMessage(message, QOpenAIMessage.Role.UNDEFINED)
           openAIImage.sendRequest(message)
           break
         }

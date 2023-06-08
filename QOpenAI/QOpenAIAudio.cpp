@@ -1,9 +1,7 @@
 #include "QOpenAIAudio.h"
 
-QOpenAIAudio::QOpenAIAudio(QObject *parent) : _audioRecorder(new AudioRecorder(this)) {
-    connect(_audioRecorder, &AudioRecorder::recordingFinished, this, [&](const QUrl& absFilePath){
-        this->sendRequest(absFilePath.toString());
-    });
+QOpenAIAudio::QOpenAIAudio(QObject *parent) : QOpenAI{parent} {
+
 }
 
 void QOpenAIAudio::sendRequest(const QString &absFilePath) {
@@ -27,12 +25,11 @@ void QOpenAIAudio::sendRequest(const QString &absFilePath) {
     QNetworkReply *reply = _networkManager->post(request, multiPart);
     multiPart->setParent(reply);
     connect(reply, &QNetworkReply::finished, this, [this, file, reply]() {
-        file->close(); // move this up after appending filepart
+        file->close();
         qDebug() << reply->error();
         if (reply->error() == QNetworkReply::NoError) {
-            const QJsonDocument responseJson = QJsonDocument::fromJson(reply->readAll());
-            const QString generatedText = responseJson.object().value("text").toString();
-            emit requestFinished(generatedText);
+            QJsonObject response = QJsonDocument::fromJson(reply->readAll()).object();
+            emit requestFinished(response);
         } else {
             qDebug() << reply->errorString();
             emit requestError(reply->errorString());

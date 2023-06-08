@@ -4,13 +4,15 @@ QOpenAIEdits::QOpenAIEdits(QObject *parent) : QOpenAI{parent} {
 
 }
 
-void QOpenAIEdits::sendRequest(const QString &content) {
+void QOpenAIEdits::sendRequest(const QString &input) {
+    _input = input;
+    _messageModel->insertMessage(_input, QOpenAIMessage::Role::UNDEFINED);
     QNetworkRequest request(getUrl(_endPoint));
     request.setHeader(QNetworkRequest::ContentTypeHeader, "application/json");
     request.setRawHeader("Authorization", ("Bearer " + OPENAI_API_KEY).toUtf8());
     QJsonObject body;
     body.insert("model", _model);
-    body.insert("input", content);
+    body.insert("input", _input);
     body.insert("instruction", _instruction);
     body.insert("temperature", _temperature);
     body.insert("top_p", _topP);
@@ -21,10 +23,8 @@ void QOpenAIEdits::sendRequest(const QString &content) {
     QNetworkReply *reply = _networkManager->post(request, jsonBytes);
     connect(reply, &QNetworkReply::finished, this, [this, reply]() {
         if (reply->error() == QNetworkReply::NoError) {
-            QByteArray response = reply->readAll();
-            QJsonDocument responseJson = QJsonDocument::fromJson(response);
-            QString content = responseJson.object().value("choices").toArray()[0].toObject().value("text").toString();
-            emit requestFinished(content);
+            QJsonObject response = QJsonDocument::fromJson(reply->readAll()).object();
+            emit requestFinished(response);
         } else {
             emit requestError(reply->errorString());
         }

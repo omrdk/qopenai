@@ -38,12 +38,8 @@ void QOpenAIImageVariations::sendRequest(const QString &image) {
     multiPart->setParent(reply);
     connect(reply, &QNetworkReply::finished, this, [this, reply]() {
         if (reply->error() == QNetworkReply::NoError) {
-            QByteArray response = reply->readAll();
-            QJsonDocument responseJson = QJsonDocument::fromJson(response);
-            for(const auto& data: responseJson.object().value("data").toArray()) {
-                QString url = data.toObject().value("url").toString();
-                emit requestFinished(url);
-            }
+            QJsonObject response = QJsonDocument::fromJson(reply->readAll()).object();
+            emit requestFinished(response);
         } else {
             emit requestError(reply->errorString());
         }

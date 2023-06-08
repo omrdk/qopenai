@@ -34,7 +34,11 @@ qt6_add_qml_module(appexample
         resources/qml/SelectedImagePopup.qml
     SOURCES
         src/InteractiveImage.cpp
+        src/AudioRecorder.cpp
+        src/ImageEditor.cpp
         inc/InteractiveImage.h
+        inc/AudioRecorder.h
+        inc/ImageEditor.h
         inc/EventInstaller.h
 )
 
