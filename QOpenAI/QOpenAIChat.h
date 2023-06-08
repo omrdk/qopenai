@@ -17,6 +17,7 @@ class QOpenAIChat : public QOpenAI
     Q_PROPERTY(float frequencyPenalty MEMBER _frequencyPenalty NOTIFY frequencyPenaltyChanged);
     Q_PROPERTY(QVariantMap logitBias MEMBER _logitBias NOTIFY logitBiasChanged);
     Q_PROPERTY(QString user MEMBER _user NOTIFY userChanged);
+    Q_PROPERTY(QString systemMessage MEMBER _systemMessage NOTIFY systemMessageChanged);
     QML_ELEMENT
 
 public:
@@ -36,6 +37,7 @@ private:
     float _frequencyPenalty = 0.0;
     QVariantMap _logitBias = {};
     QString _user = "";
+    QString _systemMessage = "";
 
 signals:
     void modelChanged();
@@ -49,6 +51,7 @@ signals:
     void frequencyPenaltyChanged();
     void logitBiasChanged();
     void userChanged();
+    void systemMessageChanged();
 };
 
 #endif // QOPENAICHAT_H

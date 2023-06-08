@@ -77,6 +77,7 @@ Window {
     frequencyPenalty: 0.0
     logitBias: []
     user: ""
+    systemMessage: chatPage.instructionItem.text
 
     onRequestFinished: function (jsonObject) {
       const content = jsonObject.choices[0].message.content

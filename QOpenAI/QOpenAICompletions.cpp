@@ -6,7 +6,6 @@ QOpenAICompletions::QOpenAICompletions(QObject *parent) : QOpenAI{parent} {
 
 void QOpenAICompletions::sendRequest(const QString &prompt) {
     _prompt = prompt;
-    _messageModel->insertMessage(_prompt, QOpenAIMessage::Role::UNDEFINED);
     QNetworkRequest request(getUrl(_endPoint));
     request.setHeader(QNetworkRequest::ContentTypeHeader, "application/json");
     request.setRawHeader("Authorization", ("Bearer " + OPENAI_API_KEY).toUtf8());

@@ -5,13 +5,20 @@ QOpenAIChat::QOpenAIChat(QObject *parent) : QOpenAI{parent} {
 }
 
 void QOpenAIChat::sendRequest(const QString &content) {
-    _messageModel->insertMessage(content, QOpenAIMessage::Role::USER);
+    Q_UNUSED(content)
     QNetworkRequest request(getUrl(_endPoint));
     request.setHeader(QNetworkRequest::ContentTypeHeader, "application/json");
     request.setRawHeader("Authorization", ("Bearer " + OPENAI_API_KEY).toUtf8());
     QJsonObject body;
     body.insert("model", _model);
     QJsonArray messagesBranch;
+    if(!_systemMessage.isEmpty()) {
+        QOpenAIMessage message;
+        QJsonObject branch;
+        branch.insert("role", "system");
+        branch.insert("content", _systemMessage);
+        messagesBranch.append(branch);
+    }
     const auto messages = _messageModel->getMessages();
     for(auto message: messages) {
         QJsonObject branch;

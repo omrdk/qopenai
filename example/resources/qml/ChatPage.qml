@@ -12,6 +12,7 @@ Rectangle {
 
   // used only when the platform is iOS
   property var nativeImagePickerObj: null
+
   property alias inputItem: chatInput
   property alias instructionItem: instruction
   property alias endpointsItem: endPoints
@@ -36,12 +37,34 @@ Rectangle {
         }
       }
 
-      placeHolderItem.text: "Enter your instruction"
+      placeHolderItem.text: {
+        switch (endPoints.currentEndpoint) {
+        case QOpenAI.ChatCompletions:
+          return "Enter system message"
+        case QOpenAI.Edits:
+          return "Enter instruction"
+        case QOpenAI.ImageEdits:
+          return "Enter prompt"
+        }
+        return ""
+      }
 
       verticalAlignment: TextArea.AlignVCenter
       horizontalAlignment: TextArea.AlignHCenter
 
-      visible: endPoints.currentEndpoint === QOpenAI.Edits || endPoints.currentEndpoint === QOpenAI.ImageEdits && selectedImagePopup.visible
+      visible: {
+        switch (endPoints.currentEndpoint) {
+        case QOpenAI.ChatCompletions:
+        case QOpenAI.Edits:
+          return true
+        case QOpenAI.ImageEdits:
+          if (selectedImagePopup.visible) {
+            return true
+          }
+          break
+        }
+        return false
+      }
     }
 
     SessionListView {
@@ -82,12 +105,15 @@ Rectangle {
       onMessageSent: function (message) {
         switch (endPoints.currentEndpoint) {
         case QOpenAI.Completions:
+          openAICompletions.messageModel.insertMessage(message, QOpenAIMessage.Role.UNDEFINED)
           openAICompletions.sendRequest(message)
           break
         case QOpenAI.ChatCompletions:
           openAIChatCompletions.sendRequest(message)
+          openAIChatCompletions.messageModel.insertMessage(message, QOpenAIMessage.Role.USER)
           break
         case QOpenAI.Edits:
+          openAIEdits.messageModel.insertMessage(message, QOpenAIMessage.Role.UNDEFINED)
           openAIEdits.sendRequest(message)
           break
         case QOpenAI.Transcriptions:
@@ -95,9 +121,10 @@ Rectangle {
           openAIAudio.sendRequest(message)
           break
         case QOpenAI.ImageGenerations:
-        case QOpenAI.ImageEdits:
-        case QOpenAI.ImageVariations:
+          openAIImage.messageModel.insertMessage(message, QOpenAIMessage.Role.UNDEFINED)
           openAIImage.sendRequest(message)
+          break
+        default:
           break
         }
       }
