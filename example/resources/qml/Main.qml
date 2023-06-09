@@ -94,7 +94,7 @@ Window {
 
     endPoint: QOpenAI.Edits
     model: "text-davinci-edit-001" // code-davinci-edit-001
-    input: "" // NOOP
+    input: chatPage.instructionItem.text
     instruction: chatPage.instructionItem.text
     n: 1
     temperature: 1.0
@@ -142,8 +142,8 @@ Window {
     id: openAIImage
 
     endPoint: QOpenAI.ImageGenerations
-    prompt: "" // NOOP
-    n: 2
+    prompt: ""
+    n: 1
     imageSize: "512x512"
     responseFormat: "url"
     user: ""
@@ -165,10 +165,10 @@ Window {
     id: openAIImageEdits
 
     endPoint: QOpenAI.ImageEdits
-    image: "" // NOOP
-    mask: "" // NOOP
+    image: ""
+    mask: ""
     prompt: chatPage.inputItem.textAreaItem.text
-    n: 2
+    n: 1
     imageSize: "512x512"
     responseFormat: "url"
     user: ""
@@ -190,8 +190,8 @@ Window {
     id: openAIImageVariations
 
     endPoint: QOpenAI.ImageVariations
-    image: "" // NOOP
-    n: 2
+    image: ""
+    n: 1
     imageSize: "512x512"
     responseFormat: "url"
     user: ""

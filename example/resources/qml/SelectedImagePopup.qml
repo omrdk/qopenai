@@ -7,6 +7,7 @@ import QOpenAI
 PopupItem {
   id: root
 
+  property alias interactiveImageItem: interactiveImage
   property string source: ""
   property bool alphaChannelCanBeModified: false
 
@@ -27,6 +28,11 @@ PopupItem {
       source: root.source
 
       enabled: root.alphaChannelCanBeModified
+
+      onDuplicateImagesCreated: function (imagePath, maskPath) {
+        openAIImageEdits.image = imagePath
+        openAIImageEdits.mask = maskPath
+      }
     }
 
     RowLayout {

@@ -1,8 +1,7 @@
 #include "InteractiveImage.h"
 
-#include <QRect>
-#include <QFileInfo>
-#include <QStandardPaths>
+#include <QImageWriter>
+#include <QImageReader>
 
 InteractiveImage::InteractiveImage(QQuickPaintedItem *parent)
     : QQuickPaintedItem{parent}
@@ -17,8 +16,17 @@ QString InteractiveImage::getSource() const {
 
 void InteractiveImage::setSource(const QString &source) {
     _source = source;
-    refreshAndDuplicate();
+    updateImage();
     emit sourceChanged() ;
+    update();
+}
+
+void InteractiveImage::removeAlphaFromImage(const QPointF &point) {
+    QPainter painter(&_image);
+    painter.setCompositionMode(QPainter::CompositionMode_DestinationOut);
+    painter.setPen(QPen(Qt::color1, 40, Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin));
+    painter.drawLine(QPointF(_prevPoint.x(), _prevPoint.y() - _imageY), QPointF(point.x(), point.y() - _imageY));
+    _prevPoint = point;
     update();
 }
 
@@ -38,8 +46,7 @@ void InteractiveImage::mouseMoveEvent(QMouseEvent *event) {
 
 void InteractiveImage::mouseReleaseEvent(QMouseEvent *event) {
     removeAlphaFromImage(event->position());
-    QFileInfo inputFile(_source);
-    _image.save(QStandardPaths::writableLocation(QStandardPaths::TempLocation) + "/" + inputFile.completeBaseName() + "_mask.png");
+    _image.save(_maskPath);
 }
 
 void InteractiveImage::touchEvent(QTouchEvent *event)
@@ -57,8 +64,7 @@ void InteractiveImage::touchEvent(QTouchEvent *event)
     }
     case QEvent::TouchEnd: {
         removeAlphaFromImage(event->points().last().position());
-        QFileInfo inputFile(_source);
-        _image.save(QStandardPaths::writableLocation(QStandardPaths::TempLocation) + "/" + inputFile.completeBaseName() + "_mask.png");
+        _image.save(_maskPath);
         break;
     }
     default:
@@ -66,24 +72,57 @@ void InteractiveImage::touchEvent(QTouchEvent *event)
     }
 }
 
-void InteractiveImage::refreshAndDuplicate()
+void InteractiveImage::updateImage()
 {
     if(!_source.isEmpty()) {
         _image = QImage(width(), height(), QImage::Format_ARGB32);
         _image.fill(Qt::transparent);
         _image.load(_source);
         _image = _image.scaled(width(), height(), Qt::KeepAspectRatio);
-        QFileInfo inputFile(_source);
-        _image.save(QStandardPaths::writableLocation(QStandardPaths::TempLocation) + "/" + inputFile.completeBaseName() + "_copy.png");
         _imageY = (height() - _image.height()) / 2;
+        createDuplicates();
     }
 }
 
-void InteractiveImage::removeAlphaFromImage(const QPointF &point) {
-    QPainter painter(&_image);
-    painter.setCompositionMode(QPainter::CompositionMode_DestinationOut);
-    painter.setPen(QPen(Qt::color1, 40, Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin));
-    painter.drawLine(QPointF(_prevPoint.x(), _prevPoint.y() - _imageY), QPointF(point.x(), point.y() - _imageY));
-    _prevPoint = point;
-    update();
+void InteractiveImage::createDuplicates()
+{
+    QFileInfo inputFile(_source);
+    QString tempLocation = QStandardPaths::writableLocation(QStandardPaths::TempLocation);
+    _imagePath = tempLocation + "/" + inputFile.completeBaseName() + "_copy." + inputFile.suffix();
+    _maskPath = tempLocation + "/" + inputFile.completeBaseName() + "_mask." + inputFile.suffix();
+    _image.save(_imagePath);
+    _image.save(_maskPath);
+    emit duplicateImagesCreated(_imagePath, _maskPath);
 }
+
+bool InteractiveImage::isFormatSupported(const QString &imagePath) const {
+    QImageReader imageReader(imagePath);
+    const auto format = imageReader.format();
+    if(QImageWriter::supportedImageFormats().contains(format)) {
+        return true;
+    }
+    return false;
+}
+
+QString InteractiveImage::convertToPng(const QString &imagePath) {
+    bool isSuffixIsPng = isPngImage(imagePath);
+    if(isSuffixIsPng) {
+        return imagePath;
+    }
+    QFileInfo inputFile(imagePath);
+    QString outputFilePath = inputFile.path() + "/" + inputFile.completeBaseName() + "." + inputFile.suffix();
+    QImage image(imagePath);
+    image.save(outputFilePath, "png");
+    return outputFilePath;
+}
+
+bool InteractiveImage::isPngImage(const QString &imagePath) const {
+    QImageReader imageReader(imagePath);
+    const auto format = imageReader.format();
+    if(format == "png") {
+        return true;
+    }
+    return false;
+}
+
+

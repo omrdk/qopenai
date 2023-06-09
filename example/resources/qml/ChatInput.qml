@@ -13,7 +13,7 @@ Row {
   property alias audioRecorderItem: audioRecorder
   property bool audioRecording: false
 
-  signal messageSent(string message)
+  signal sendClicked(string content)
   signal loadImageRequested
 
   // workaround for iOS keyboard shifting, basically changes the bottom margin of chatPage when it is visible
@@ -26,7 +26,7 @@ Row {
     id: audioRecorder
 
     onRecordingFinished: function (audioFilePath) {
-      root.messageSent(audioFilePath)
+      root.sendClicked(audioFilePath)
     }
   }
 
@@ -124,7 +124,7 @@ Row {
           case QOpenAI.Edits:
           case QOpenAI.ImageGenerations:
             if (textArea.length) {
-              root.messageSent(textArea.text)
+              root.sendClicked(textArea.text)
               textArea.clear()
             }
             break

@@ -28,7 +28,7 @@ class QOpenAICompletions : public QOpenAI
 public:
     explicit QOpenAICompletions(QObject *parent = nullptr);
 
-    Q_INVOKABLE void sendRequest(const QString& prompt) override;;
+    Q_INVOKABLE void sendRequest() override;;
 
 private:
     QString _model = "";

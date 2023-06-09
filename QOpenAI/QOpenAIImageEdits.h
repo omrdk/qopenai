@@ -2,7 +2,6 @@
 #define QOPENAIIMAGEEDITS_H
 
 #include "QOpenAI.h"
-#include "ImageEditor.h"
 
 class QOpenAIImageEdits : public QOpenAI
 {
@@ -18,7 +17,7 @@ class QOpenAIImageEdits : public QOpenAI
 public:
     explicit QOpenAIImageEdits(QObject *parent = nullptr);
 
-    Q_INVOKABLE void sendRequest(const QString& prompt) override;
+    Q_INVOKABLE void sendRequest() override;
 
 private:
     QString _image = "";
@@ -29,8 +28,6 @@ private:
     QString _responseFormat = "";
     QString _user = "";
 
-    ImageEditor _imageEditor;
-
 signals:
     void imageChanged();
     void maskChanged();
@@ -40,7 +37,6 @@ signals:
     void responseFormatChanged();
     void userChanged();
 
-    void imagePixelsChanged(const QString& image);
 };
 
 #endif // QOPENAIIMAGEEDITS_H

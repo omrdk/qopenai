@@ -35,10 +35,8 @@ qt6_add_qml_module(appexample
     SOURCES
         src/InteractiveImage.cpp
         src/AudioRecorder.cpp
-        src/ImageEditor.cpp
         inc/InteractiveImage.h
         inc/AudioRecorder.h
-        inc/ImageEditor.h
         inc/EventInstaller.h
 )
 
@@ -73,7 +71,7 @@ if(WIN32)
 endif()
 
 # uncomment if you'll instantiate openai classes in C++
-target_link_libraries(appexample PRIVATE Qt::Quick Qt::Core Qt::Network Qt::Multimedia Qt::Gui qopenaiplugin qopenai)
+target_link_libraries(appexample PRIVATE Qt::Quick Qt::Core Qt::Network Qt::Multimedia Qt::Gui qopenaiplugin)
 target_include_directories(appexample PUBLIC ${CMAKE_SOURCE_DIR}/../qopenai "${CMAKE_BINARY_DIR}/qopenai")
 
 install(TARGETS appexample BUNDLE DESTINATION . LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR})

@@ -4,8 +4,7 @@ QOpenAIImage::QOpenAIImage(QObject *parent) : QOpenAI{parent} {
 
 }
 
-void QOpenAIImage::sendRequest(const QString &prompt) {
-    _prompt = prompt;
+void QOpenAIImage::sendRequest() {
     QNetworkRequest request(getUrl(_endPoint));
     request.setHeader(QNetworkRequest::ContentTypeHeader, "application/json");
     request.setRawHeader("Authorization", ("Bearer " + OPENAI_API_KEY).toUtf8());

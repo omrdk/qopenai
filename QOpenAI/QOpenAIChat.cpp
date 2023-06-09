@@ -4,8 +4,7 @@ QOpenAIChat::QOpenAIChat(QObject *parent) : QOpenAI{parent} {
 
 }
 
-void QOpenAIChat::sendRequest(const QString &content) {
-    Q_UNUSED(content)
+void QOpenAIChat::sendRequest() {
     QNetworkRequest request(getUrl(_endPoint));
     request.setHeader(QNetworkRequest::ContentTypeHeader, "application/json");
     request.setRawHeader("Authorization", ("Bearer " + OPENAI_API_KEY).toUtf8());

@@ -2,7 +2,6 @@
 #define QOPENAIIMAGEVARIATIONS_H
 
 #include "QOpenAI.h"
-#include "ImageEditor.h"
 
 class QOpenAIImageVariations : public QOpenAI
 {
@@ -17,7 +16,7 @@ class QOpenAIImageVariations : public QOpenAI
 public:
     explicit QOpenAIImageVariations(QObject *parent = nullptr);
 
-    Q_INVOKABLE void sendRequest(const QString& image) override;;
+    Q_INVOKABLE void sendRequest() override;;
 
 private:
     QString _image = "";
@@ -25,8 +24,6 @@ private:
     QString _imageSize = "";
     QString _responseFormat = "";
     QString _user = "";
-
-    ImageEditor _imageEditor;
 
 signals:
     void imageChanged();

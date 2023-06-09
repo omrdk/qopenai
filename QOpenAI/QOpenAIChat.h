@@ -23,7 +23,7 @@ class QOpenAIChat : public QOpenAI
 public:
     explicit QOpenAIChat(QObject *parent = nullptr);
 
-    Q_INVOKABLE void sendRequest(const QString& content) override;
+    Q_INVOKABLE void sendRequest() override;
 
 private:
     QString _model = "";
@@ -52,6 +52,7 @@ signals:
     void logitBiasChanged();
     void userChanged();
     void systemMessageChanged();
+    void userMessageChanged();
 };
 
 #endif // QOPENAICHAT_H

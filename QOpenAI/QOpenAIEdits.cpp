@@ -4,8 +4,7 @@ QOpenAIEdits::QOpenAIEdits(QObject *parent) : QOpenAI{parent} {
 
 }
 
-void QOpenAIEdits::sendRequest(const QString &input) {
-    _input = input;
+void QOpenAIEdits::sendRequest() {
     QNetworkRequest request(getUrl(_endPoint));
     request.setHeader(QNetworkRequest::ContentTypeHeader, "application/json");
     request.setRawHeader("Authorization", ("Bearer " + OPENAI_API_KEY).toUtf8());

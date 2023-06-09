@@ -12,7 +12,7 @@ AudioRecorder::AudioRecorder(QObject *parent) : QObject{parent} {
     connect(&_audioRecorder, &QMediaRecorder::recorderStateChanged, this, [&](QMediaRecorder::RecorderState state) {
         switch (state) {
         case QMediaRecorder::RecorderState::StoppedState: {
-            QString audioFilePath = QUrl::fromLocalFile(QStandardPaths::writableLocation(QStandardPaths::TempLocation) + "/recorded_voice").toString();
+            QString audioFilePath = _audioRecorder.actualLocation().toString();
             emit recordingFinished(audioFilePath);
             break;
         }
@@ -35,7 +35,6 @@ void AudioRecorder::toggleRecord() {
         QMediaFormat format;
         format.setAudioCodec(QMediaFormat::AudioCodec::Unspecified);
         format.setFileFormat(QMediaFormat::FileFormat::UnspecifiedFormat);
-        qDebug() << _captureSession.audioInput()->device().description();
         _audioRecorder.setMediaFormat(format);
         _audioRecorder.setAudioSampleRate(44100);
         _audioRecorder.setAudioBitRate(0);
@@ -43,10 +42,15 @@ void AudioRecorder::toggleRecord() {
         _audioRecorder.setEncodingMode(QMediaRecorder::ConstantQualityEncoding);
         #ifdef Q_OS_IOS
         QFile::remove(QStandardPaths::writableLocation(QStandardPaths::TempLocation) + "/recorded_voice.m4a");
+        //QFile::remove(_audioRecorder.actualLocation().toString()) // TODO: test
         #endif
-        _audioRecorder.setOutputLocation(QUrl::fromLocalFile(QStandardPaths::writableLocation(QStandardPaths::TempLocation) + "/recorded_voice"));
-        _audioRecorder.record();
-        _isRecording = true;
+        QUrl audioFilePathUrl = QUrl::fromLocalFile(QStandardPaths::writableLocation(QStandardPaths::TempLocation) + "/audio");
+        _audioRecorder.setOutputLocation(audioFilePathUrl);
+        if(_audioRecorder.isAvailable()) {
+            qDebug() << "Recording started!";
+            _audioRecorder.record();
+            _isRecording = true;
+        }
     } else {
         _audioRecorder.stop();
         _isRecording = false;

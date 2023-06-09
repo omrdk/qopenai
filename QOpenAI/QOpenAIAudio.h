@@ -17,7 +17,7 @@ class QOpenAIAudio : public QOpenAI
 public:
     explicit QOpenAIAudio(QObject *parent = nullptr);
 
-    Q_INVOKABLE void sendRequest(const QString& absFilePath) override;
+    Q_INVOKABLE void sendRequest() override;
 
 private:
     QString _file = "";
