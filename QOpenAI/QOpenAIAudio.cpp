@@ -35,7 +35,6 @@ void QOpenAIAudio::sendRequest() {
             QJsonObject response = QJsonDocument::fromJson(reply->readAll()).object();
             emit requestFinished(response);
         } else {
-            qDebug() << reply->errorString();
             emit requestError(reply->errorString());
         }
         reply->deleteLater();

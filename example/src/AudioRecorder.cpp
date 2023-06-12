@@ -47,7 +47,6 @@ void AudioRecorder::toggleRecord() {
         QUrl audioFilePathUrl = QUrl::fromLocalFile(QStandardPaths::writableLocation(QStandardPaths::TempLocation) + "/audio");
         _audioRecorder.setOutputLocation(audioFilePathUrl);
         if(_audioRecorder.isAvailable()) {
-            qDebug() << "Recording started!";
             _audioRecorder.record();
             _isRecording = true;
         }
