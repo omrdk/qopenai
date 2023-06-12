@@ -17,7 +17,7 @@ class QOpenAIEdits : public QOpenAI
 public:
     explicit QOpenAIEdits(QObject *parent = nullptr);
 
-    Q_INVOKABLE void sendRequest(const QString& content) override;
+    Q_INVOKABLE void sendRequest() override;
 
 private:
     QString _model = "";

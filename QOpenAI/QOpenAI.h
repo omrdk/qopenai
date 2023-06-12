@@ -32,7 +32,7 @@ public:
 
     explicit QOpenAI(QObject *parent = nullptr);
     virtual ~QOpenAI() {};
-    virtual void sendRequest(const QString& content) = 0;
+    virtual void sendRequest() = 0;
 
     QString getUrl(EndPoints endPoint);
 
@@ -41,9 +41,8 @@ protected:
     QOpenAIMessageModel* _messageModel = nullptr;
     EndPoints _endPoint = EndPoints::ChatCompletions;
 
-
 signals:
-    void requestFinished(const QString& content);
+    void requestFinished(const QJsonObject& response);
     void requestError(const QString& error);
     void messageModelChanged();
     void endPointChanged();

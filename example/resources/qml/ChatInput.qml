@@ -10,14 +10,24 @@ Row {
 
   property alias switchButtonItem: switchButton
   property alias textAreaItem: textArea
+  property alias audioRecorderItem: audioRecorder
   property bool audioRecording: false
 
-  signal messageSent(string message)
+  signal sendClicked(string content)
   signal loadImageRequested
 
   // workaround for iOS keyboard shifting, basically changes the bottom margin of chatPage when it is visible
   EventInstaller {
     id: eventInstaller
+  }
+
+  // audio recorder for audio endpoint
+  AudioRecorder {
+    id: audioRecorder
+
+    onRecordingFinished: function (audioFilePath) {
+      root.sendClicked(audioFilePath)
+    }
   }
 
   Rectangle {
@@ -105,7 +115,7 @@ Row {
           }
         }
 
-        colorOverlay: root.audioRecording ? "red" : "black"
+        colorOverlay: audioRecorderItem.isRecording ? "red" : "black"
 
         onClicked: {
           switch (endPoints.currentEndpoint) {
@@ -114,7 +124,7 @@ Row {
           case QOpenAI.Edits:
           case QOpenAI.ImageGenerations:
             if (textArea.length) {
-              root.messageSent(textArea.text)
+              root.sendClicked(textArea.text)
               textArea.clear()
             }
             break
@@ -124,7 +134,7 @@ Row {
             break
           case QOpenAI.Transcriptions:
           case QOpenAI.Translations:
-            openAIAudio.audioRecorder.toggleRecord()
+            audioRecorder.toggleRecord()
             break
           }
         }

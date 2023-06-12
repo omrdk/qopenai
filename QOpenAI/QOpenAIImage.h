@@ -19,7 +19,7 @@ class QOpenAIImage : public QOpenAI
 public:
     explicit QOpenAIImage(QObject *parent = nullptr);
 
-    Q_INVOKABLE void sendRequest(const QString& prompt) override;
+    Q_INVOKABLE void sendRequest() override;
 
 private:
     QString _prompt = "";

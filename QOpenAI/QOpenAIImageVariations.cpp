@@ -5,19 +5,14 @@
 QOpenAIImageVariations::QOpenAIImageVariations(QObject *parent) : QOpenAI{parent} {
 }
 
-void QOpenAIImageVariations::sendRequest(const QString &image) {
-    bool isFormatSupported = _imageEditor.checkImageFormatSupported(image);
-    if(!isFormatSupported) {
-        emit requestError("Image format not supported!");
-        return;
-    }
-    _image = _imageEditor.convertToPng(image);
+void QOpenAIImageVariations::sendRequest() {
     QNetworkRequest request(getUrl(_endPoint));
     request.setRawHeader("Authorization", ("Bearer " + OPENAI_API_KEY).toUtf8());
     QHttpMultiPart *multiPart = new QHttpMultiPart(QHttpMultiPart::FormDataType);
+    QFileInfo fileInfo(_image);
     QHttpPart imagePart;
     imagePart.setHeader(QNetworkRequest::ContentTypeHeader, "image/png");
-    imagePart.setHeader(QNetworkRequest::ContentDispositionHeader, "form-data; name=\"image\"; filename=\"selected_image.png\"");
+    imagePart.setHeader(QNetworkRequest::ContentDispositionHeader, "form-data; name=\"image\"; filename=\"" + fileInfo.fileName() + "\"");
     imagePart.setBody(_image.toUtf8());
     QHttpPart nPart;
     nPart.setHeader(QNetworkRequest::ContentTypeHeader, "text/plain");
@@ -27,6 +22,10 @@ void QOpenAIImageVariations::sendRequest(const QString &image) {
     sizePart.setHeader(QNetworkRequest::ContentTypeHeader, "text/plain");
     sizePart.setHeader(QNetworkRequest::ContentDispositionHeader, "form-data; name=\"size\"");
     sizePart.setBody(_imageSize.toUtf8());
+    QUrl fileUrl(_image);
+    if(fileUrl.isLocalFile()) {
+        _image = fileUrl.toLocalFile();
+    }
     QFile *file = new QFile(_image);
     file->open(QIODevice::ReadOnly);
     imagePart.setBodyDevice(file);
@@ -38,12 +37,8 @@ void QOpenAIImageVariations::sendRequest(const QString &image) {
     multiPart->setParent(reply);
     connect(reply, &QNetworkReply::finished, this, [this, reply]() {
         if (reply->error() == QNetworkReply::NoError) {
-            QByteArray response = reply->readAll();
-            QJsonDocument responseJson = QJsonDocument::fromJson(response);
-            for(const auto& data: responseJson.object().value("data").toArray()) {
-                QString url = data.toObject().value("url").toString();
-                emit requestFinished(url);
-            }
+            QJsonObject response = QJsonDocument::fromJson(reply->readAll()).object();
+            emit requestFinished(response);
         } else {
             emit requestError(reply->errorString());
         }

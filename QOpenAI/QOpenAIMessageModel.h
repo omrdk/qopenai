@@ -16,7 +16,6 @@ class QOpenAIMessageModel : public QAbstractListModel
 public:
     enum Roles {
         Content,
-        TimeStamp,
         MessageRole
     };
 

@@ -12,9 +12,11 @@ Rectangle {
 
   // used only when the platform is iOS
   property var nativeImagePickerObj: null
+
   property alias inputItem: chatInput
   property alias instructionItem: instruction
   property alias endpointsItem: endPoints
+  property alias selectedImagePopupItem: selectedImagePopup
 
   ColumnLayout {
     id: container
@@ -36,12 +38,34 @@ Rectangle {
         }
       }
 
-      placeHolderItem.text: "Enter your instruction"
+      placeHolderItem.text: {
+        switch (endPoints.currentEndpoint) {
+        case QOpenAI.ChatCompletions:
+          return "Enter system message"
+        case QOpenAI.Edits:
+          return "Enter instruction"
+        case QOpenAI.ImageEdits:
+          return "Enter prompt"
+        }
+        return ""
+      }
 
       verticalAlignment: TextArea.AlignVCenter
       horizontalAlignment: TextArea.AlignHCenter
 
-      visible: endPoints.currentEndpoint === QOpenAI.Edits || endPoints.currentEndpoint === QOpenAI.ImageEdits && selectedImagePopup.visible
+      visible: {
+        switch (endPoints.currentEndpoint) {
+        case QOpenAI.ChatCompletions:
+        case QOpenAI.Edits:
+          return true
+        case QOpenAI.ImageEdits:
+          if (selectedImagePopup.visible) {
+            return true
+          }
+          break
+        }
+        return false
+      }
     }
 
     SessionListView {
@@ -79,31 +103,33 @@ Rectangle {
       Layout.fillWidth: true
       Layout.margins: 5
 
-      audioRecording: openAIAudio.audioRecorder.isRecording
-
-      onMessageSent: function (message) {
+      onSendClicked: function (content) {
         switch (endPoints.currentEndpoint) {
         case QOpenAI.Completions:
-          openAICompletions.messageModel.insertMessage(message, QOpenAIMessage.Role.UNDEFINED)
-          openAICompletions.sendRequest(message)
+          openAICompletions.messageModel.insertMessage(content, QOpenAIMessage.Role.UNDEFINED)
+          openAICompletions.prompt = content
+          openAICompletions.sendRequest()
           break
         case QOpenAI.ChatCompletions:
-          openAIChatCompletions.messageModel.insertMessage(message, QOpenAIMessage.Role.USER)
-          openAIChatCompletions.sendRequest(message)
+          openAIChatCompletions.messageModel.insertMessage(content, QOpenAIMessage.Role.USER)
+          openAIChatCompletions.sendRequest(content)
           break
         case QOpenAI.Edits:
-          openAIEdits.messageModel.insertMessage(message, QOpenAIMessage.Role.UNDEFINED)
-          openAIEdits.sendRequest(message)
+          openAIEdits.messageModel.insertMessage(content, QOpenAIMessage.Role.UNDEFINED)
+          openAIEdits.input = content
+          openAIEdits.sendRequest()
           break
         case QOpenAI.Transcriptions:
         case QOpenAI.Translations:
-          openAIAudio.sendRequest(message)
+          openAIAudio.file = content
+          openAIAudio.sendRequest()
           break
         case QOpenAI.ImageGenerations:
-        case QOpenAI.ImageEdits:
-        case QOpenAI.ImageVariations:
-          openAIImage.messageModel.insertMessage(message, QOpenAIMessage.Role.UNDEFINED)
-          openAIImage.sendRequest(message)
+          openAIImage.messageModel.insertMessage(content, QOpenAIMessage.Role.UNDEFINED)
+          openAIImage.prompt = content
+          openAIImage.sendRequest()
+          break
+        default:
           break
         }
       }
@@ -165,11 +191,18 @@ Rectangle {
       }
       switch (endPoints.currentEndpoint) {
       case QOpenAI.ImageEdits:
-        openAIImageEdits.image = source
-        openAIImageEdits.sendRequest(instruction.text)
+        //openAIImageEdits.image = source
+        openAIImageEdits.prompt = instruction.text
+        openAIImageEdits.sendRequest()
         break
       case QOpenAI.ImageVariations:
-        openAIImageVariations.sendRequest(source)
+        if (!interactiveImageItem.isFormatSupported(source)) {
+          // TODO: error
+          return
+        }
+        const image = interactiveImageItem.convertToPng(source)
+        openAIImageVariations.image = image
+        openAIImageVariations.sendRequest()
         break
       }
       chatInput.textAreaItem.clear()

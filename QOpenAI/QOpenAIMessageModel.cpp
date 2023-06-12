@@ -22,8 +22,6 @@ QVariant QOpenAIMessageModel::data(const QModelIndex &index, int role) const
     switch (role) {
     case Roles::Content:
         return message->getContent();
-    case Roles::TimeStamp:
-        return "";
     case Roles::MessageRole:
         return static_cast<int>(message->getRole());
     default:
@@ -37,7 +35,6 @@ QHash<int, QByteArray> QOpenAIMessageModel::roleNames() const
 {
     return {
         { Roles::Content, "content" },
-        { Roles::TimeStamp, "time" },
         { Roles::MessageRole, "role" }
     };
 }

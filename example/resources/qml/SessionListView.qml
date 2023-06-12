@@ -13,7 +13,6 @@ ListView {
     id: delegateText
 
     required property string content
-    required property string time
     required property int role
 
     x: role === QOpenAIMessage.Role.ASSISTANT ? 0 : parent.width - width
