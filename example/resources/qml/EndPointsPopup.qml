@@ -24,7 +24,8 @@ PopupItem {
 
     anchors.fill: parent
 
-    model: ["Completions", "Chat Completions", "Edits", "Transcriptions", "Translations", "Image Creations", "Image Edits", "Image Variations"]
+    model: ["Completions", "Chat Completions", "Edits", "Image Creations", "Image Edits", "Image Variations", "Embeddings", "Transcriptions", "Translations", "Moderations"]
+
     interactive: false
     currentIndex: 1
 
