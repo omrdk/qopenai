@@ -1,23 +1,36 @@
-## Description
+## `Description`
 
-OpenAI plugin for QML or library for C++ that you can use as a templete in your future projects.
+OpenAI plugin for QML or a library for C++ that could be used as a templete in Qt-based projects.
 
-## Platform
+## `Features`
 
-Example supports only OSX and iOS platforms. Tested on Qt verion 6.5.0.
+- [x] [Completions]()
+- [X] [Chat Completions]()
+- [X] [Edits]()
+- [x] [Image Generations]()
+- [x] [Image Edits]()
+- [x] [Image Variations]() 
+- [x] [Embeddings]() 
+- [x] [Transcriptions]() 
+- [x] [Translations]() 
+- [x] [Moderation]() 
+- [ ] [Files]() 
+- [ ] [Fine Tunes]() 
 
-## Set your api key
+## `Authentication`
 
-Set OPENAI_API_KEY in Qt Creator to interact with the OpenAI endpoints:
+Example checks if the OPENAI_API_KEY environment variable before starting the application. So, add the environment variable to the selected kit's run configuration on Qt Creator:
+
+Set OPENAI_API_KEY in Qt Creator to run the example to interact with the OpenAI endpoints:
 
 Projects -> Your kit -> Run -> Environment -> Details -> Add: OPENAI_API_KEY="your-key"
 
-## How to link the qopenai to your application
+## `How to link qopenai`
 
-- Copy `QOpenAI` folder under your project's root directory
-- Add `QOpenAI` as a sub-directory in project's root CMakeLists.txt file after creating executable for your target(see qt_add_executable):
+- Copy `qopenai` folder under your project's root directory
+- Add `qopenai` as a sub-directory in project's root CMakeLists.txt file after creating executable for your target(see qt_add_executable):
 ```
-add_subdirectory(QOpenAI)
+add_subdirectory(qopenai)
 ```
 - Link required Qt modules and `qopenaiplugin` to the target:
 ```
@@ -29,12 +42,10 @@ target_link_libraries(appexample PRIVATE Qt::Quick Qt::Core Qt::Network Qt::Mult
 ```
 - Then include directories for target to be able to `#include` and instantiate them in C++:
 ```
-target_include_directories(qopenai PUBLIC ${CMAKE_SOURCE_DIR}/QOpenAI "${CMAKE_BINARY_DIR}/QOpenAI")
+target_include_directories(qopenai PUBLIC ${CMAKE_SOURCE_DIR}/qopenai "${CMAKE_BINARY_DIR}/qopenai")
 ```
 
-## How to use it 
-
-### - In QML
+## `How to use it `
 
 ```
 import QOpenAI
@@ -54,9 +65,13 @@ QOpenAIChat {
   frequencyPenalty: 0.0
   logitBias: []
   user: ""
+  systemMessage: ""
 
-  onRequestFinished: function (content) {
-    console.log("Response message:", content)
+  onRequestFinished: function (jsonObject) {
+    const content = jsonObject.choices[0].message.content
+    console.log("Message:", content)
+    // need to its model for continuous conversation
+    openAIChat.messageModel.insertMessage(content, QOpenAIMessage.Role.Assistant)
   }
 
   onRequestError: function (error) {
@@ -64,30 +79,17 @@ QOpenAIChat {
   }
 }
 
-// somewhere in your application
+// somewhere in the Qml code
 onClicked: {
-  openAIChat.sendRequest(textItem.text)
+  openAIChat.messageModel.insertMessage("naber", QOpenAIMessage.Role.User)
+  openAIChat.sendRequest()
 }
 
 
 ```
 
-## Features
-
-Plugin provides below endpoints:
-
-- /v1/completions
-- /v1/chat/completions
-- /v1/edits
-- /v1/audio/transcriptions
-- /v1/audio/translations
-- /v1/images/generations
-- /v1/images/edits
-- /v1/images/variations
-
-
-## Appendix
-
+## `Appendix`
+- Example app tested on OSX and iOS platforms with the Qt's 6.5.0 verion.
 - 'gpt-3.5-turbo' model for chat endpoint doesn't follow system role messages at all and can be overridden with user role messages(in case you are planning to use gpt-4 then consider to modify system message part of the plugin). 
 - Image and audio(if recorded audio is too long) may return responses a bit late than expected, so wait for it.
 

@@ -9,8 +9,8 @@ void QOpenAIEmbeddings::sendRequest() {
     request.setRawHeader("Authorization", ("Bearer " + OPENAI_API_KEY).toUtf8());
     request.setHeader(QNetworkRequest::ContentTypeHeader, "application/json");
     QJsonObject body;
-    body.insert("input", _input);
     body.insert("model", _model);
+    body.insert("input", _input);
     body.insert("user", _user);
     QJsonDocument json;
     json.setObject(body);

@@ -20,12 +20,12 @@ QString QOpenAI::getUrl(EndPoints endPoint) {
     case EndPoints::ImageVariations:
         return url + "/v1/images/variations";
     case EndPoints::Embeddings:
-        return url + "/v1/images/embeddings";
+        return url + "/v1/embeddings";
     case EndPoints::Transcriptions:
         return url + "/v1/audio/transcriptions";
     case EndPoints::Translations:
         return url + "/v1/audio/translations";
     case EndPoints::Moderations:
-        return url + "/v1/audio/moderations";
+        return url + "/v1/moderations";
     }
 }
