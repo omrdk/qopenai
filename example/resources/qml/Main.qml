@@ -58,7 +58,7 @@ Window {
     }
 
     onRequestError: function (error) {
-      console.log("REQUEST ERROR:", error)
+      console.log("Error message:", error)
     }
   }
 
@@ -85,7 +85,7 @@ Window {
     }
 
     onRequestError: function (error) {
-      console.log("REQUEST ERROR:", error)
+      console.log("Error message:", error)
     }
   }
 
@@ -106,7 +106,7 @@ Window {
     }
 
     onRequestError: function (error) {
-      console.log("REQUEST ERROR:", error)
+      console.log("Error message:", error)
     }
   }
 
@@ -127,6 +127,7 @@ Window {
     model: "whisper-1"
     responseFormat: "json"
     temperature: 1.0
+    file: ""
 
     onRequestFinished: function (jsonObject) {
       const content = jsonObject.text
@@ -134,7 +135,7 @@ Window {
     }
 
     onRequestError: function (error) {
-      console.log("REQUEST ERROR:", error)
+      console.log("Error message:", error)
     }
   }
 
@@ -157,7 +158,7 @@ Window {
     }
 
     onRequestError: function (error) {
-      console.log("REQUEST ERROR:", error)
+      console.log("Error message:", error)
     }
   }
 
@@ -182,7 +183,7 @@ Window {
     }
 
     onRequestError: function (error) {
-      console.log("REQUEST ERROR:", error)
+      console.log("Error message:", error)
     }
   }
 
@@ -205,7 +206,7 @@ Window {
     }
 
     onRequestError: function (error) {
-      console.log("REQUEST ERROR:", error)
+      console.log("Error message:", error)
     }
   }
 }
