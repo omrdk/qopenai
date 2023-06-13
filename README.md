@@ -4,16 +4,16 @@ OpenAI plugin for QML or a library for C++ that could be used as a templete in Q
 
 ## `Features`
 
-- [x] [Completions]()
-- [X] [Chat Completions]()
-- [X] [Edits]()
-- [x] [Image Generations]()
-- [x] [Image Edits]()
-- [x] [Image Variations]() 
-- [x] [Embeddings]() 
-- [x] [Transcriptions]() 
-- [x] [Translations]() 
-- [x] [Moderation]() 
+- [x] [Completions](https://github.com/omrdk/qopenai/documentation/completions.md)
+- [X] [Chat Completions](https://github.com/omrdk/qopenai/documentation/chatCompletions.md)
+- [X] [Edits](https://github.com/omrdk/qopenai/documentation/edits.md)
+- [x] [Image Generations](https://github.com/omrdk/qopenai/documentation/imageGenerations.md)
+- [x] [Image Edits](https://github.com/omrdk/qopenai/documentation/imageEdits.md)
+- [x] [Image Variations](https://github.com/omrdk/qopenai/documentation/imageVariations.md) 
+- [x] [Embeddings](https://github.com/omrdk/qopenai/documentation/embeddings.md) 
+- [x] [Transcriptions](https://github.com/omrdk/qopenai/documentation/transscriptions.md) 
+- [x] [Translations](https://github.com/omrdk/qopenai/documentation/translations.md) 
+- [x] [Moderations](https://github.com/omrdk/qopenai/documentation/moderations.md) 
 - [ ] [Files]() 
 - [ ] [Fine Tunes]() 
 
