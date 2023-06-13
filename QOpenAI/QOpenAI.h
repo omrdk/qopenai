@@ -22,11 +22,13 @@ public:
         Completions,
         ChatCompletions,
         Edits,
-        Transcriptions,
-        Translations,
         ImageGenerations,
         ImageEdits,
-        ImageVariations
+        ImageVariations,
+        Embeddings,
+        Transcriptions,
+        Translations,
+        Moderations
     };
     Q_ENUM(EndPoints)
 

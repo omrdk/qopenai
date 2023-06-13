@@ -33,6 +33,10 @@ qt6_add_qml_module(${PROJECT_NAME}
         QOpenAIMessage.h
         QOpenAIMessageModel.cpp
         QOpenAIMessageModel.h
+        QOpenAIEmbeddings.cpp
+        QOpenAIEmbeddings.h
+        QOpenAIModerations.cpp
+        QOpenAIModerations.h
     RESOURCE_PREFIX /
 )
 

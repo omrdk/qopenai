@@ -112,7 +112,7 @@ Rectangle {
           break
         case QOpenAI.ChatCompletions:
           openAIChatCompletions.messageModel.insertMessage(content, QOpenAIMessage.Role.USER)
-          openAIChatCompletions.sendRequest(content)
+          openAIChatCompletions.sendRequest()
           break
         case QOpenAI.Edits:
           openAIEdits.messageModel.insertMessage(content, QOpenAIMessage.Role.UNDEFINED)
