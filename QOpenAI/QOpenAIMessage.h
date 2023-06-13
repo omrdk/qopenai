@@ -13,14 +13,14 @@ class QOpenAIMessage : public QObject
 
 public:
     enum class Role {
-        UNDEFINED,
-        SYSTEM,
-        USER,
-        ASSISTANT
+        Undefined,
+        System,
+        User,
+        Assistant
     };
     Q_ENUM(Role)
 
-    explicit QOpenAIMessage(const QString& content = nullptr, Role role = Role::UNDEFINED, QObject *parent = nullptr);
+    explicit QOpenAIMessage(const QString& content = nullptr, Role role = Role::Undefined, QObject *parent = nullptr);
 
     const QString& getContent() const;
     Role getRole() const;
@@ -28,7 +28,7 @@ public:
 
 private:
     QString _content = "";
-    Role _role = Role::USER;
+    Role _role = Role::User;
 
 };
 

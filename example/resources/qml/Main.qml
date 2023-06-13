@@ -54,7 +54,7 @@ Window {
 
     onRequestFinished: function (jsonObject) {
       const content = jsonObject.choices[0].text
-      openAICompletions.messageModel.insertMessage(content, QOpenAIMessage.Role.ASSISTANT)
+      openAICompletions.messageModel.insertMessage(content, QOpenAIMessage.Role.Assistant)
     }
 
     onRequestError: function (error) {
@@ -81,7 +81,7 @@ Window {
 
     onRequestFinished: function (jsonObject) {
       const content = jsonObject.choices[0].message.content
-      openAIChatCompletions.messageModel.insertMessage(content, QOpenAIMessage.Role.ASSISTANT)
+      openAIChatCompletions.messageModel.insertMessage(content, QOpenAIMessage.Role.Assistant)
     }
 
     onRequestError: function (error) {
@@ -102,7 +102,7 @@ Window {
 
     onRequestFinished: function (jsonObject) {
       const content = jsonObject.choices[0].text
-      openAIEdits.messageModel.insertMessage(content, QOpenAIMessage.Role.ASSISTANT)
+      openAIEdits.messageModel.insertMessage(content, QOpenAIMessage.Role.Assistant)
     }
 
     onRequestError: function (error) {
@@ -131,7 +131,7 @@ Window {
 
     onRequestFinished: function (jsonObject) {
       const content = jsonObject.text
-      openAIAudio.messageModel.insertMessage(content, QOpenAIMessage.Role.ASSISTANT)
+      openAIAudio.messageModel.insertMessage(content, QOpenAIMessage.Role.Assistant)
     }
 
     onRequestError: function (error) {
@@ -153,7 +153,7 @@ Window {
       let imageUrls = jsonObject.data
       for (var i = 0; i < imageUrls.length; i++) {
         let url = imageUrls[i].url
-        openAIImage.messageModel.insertMessage(url, QOpenAIMessage.Role.ASSISTANT)
+        openAIImage.messageModel.insertMessage(url, QOpenAIMessage.Role.Assistant)
       }
     }
 
@@ -178,7 +178,7 @@ Window {
       let imageUrls = jsonObject.data
       for (var i = 0; i < imageUrls.length; i++) {
         let url = imageUrls[i].url
-        openAIImageEdits.messageModel.insertMessage(url, QOpenAIMessage.Role.ASSISTANT)
+        openAIImageEdits.messageModel.insertMessage(url, QOpenAIMessage.Role.Assistant)
       }
     }
 
@@ -201,7 +201,7 @@ Window {
       let imageUrls = jsonObject.data
       for (var i = 0; i < imageUrls.length; i++) {
         let url = imageUrls[i].url
-        openAIImageVariations.messageModel.insertMessage(url, QOpenAIMessage.Role.ASSISTANT)
+        openAIImageVariations.messageModel.insertMessage(url, QOpenAIMessage.Role.Assistant)
       }
     }
 

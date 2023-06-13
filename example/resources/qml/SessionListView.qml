@@ -15,7 +15,7 @@ ListView {
     required property string content
     required property int role
 
-    x: role === QOpenAIMessage.Role.ASSISTANT ? 0 : parent.width - width
+    x: role === QOpenAIMessage.Role.Assistant ? 0 : parent.width - width
 
     width: (implicitWidth >= parent.width * 2 / 3 ? parent.width * 2 / 3 : implicitWidth) + 10
     height: implicitHeight + 10
