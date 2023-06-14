@@ -80,7 +80,7 @@ public:
     void setUser(const QString& user);
 
 private:
-    QString m_model = "";
+    QString m_model = "text-davinci-003";
     QString m_prompt = "";
     QString m_suffix = "";
     int m_maxTokens = 16;

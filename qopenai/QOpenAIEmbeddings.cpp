@@ -27,7 +27,8 @@ void QOpenAIEmbeddings::sendRequest() {
             QJsonObject response = QJsonDocument::fromJson(reply->readAll()).object();
             emit requestFinished(response);
         } else {
-            emit requestError(reply->errorString());
+            QMetaEnum metaEnum = QMetaEnum::fromType<QNetworkReply::NetworkError>();
+            emit requestError(metaEnum.valueToKey(reply->error()));
         }
         reply->deleteLater();
     });

@@ -11,6 +11,10 @@ QOpenAIChat::QOpenAIChat(const QString &model, QObject *parent)
 }
 
 void QOpenAIChat::sendRequest() {
+    if(_messageModel->getMessages().empty()) {
+        emit requestError("Message model doesn't contain any message!");
+        return;
+    }
     QNetworkRequest request(getUrl(_endPoint));
     request.setHeader(QNetworkRequest::ContentTypeHeader, "application/json");
     request.setRawHeader("Authorization", ("Bearer " + OPENAI_API_KEY).toUtf8());
@@ -51,7 +55,8 @@ void QOpenAIChat::sendRequest() {
             QJsonObject response = QJsonDocument::fromJson(reply->readAll()).object();
             emit requestFinished(response);
         } else {
-            emit requestError(reply->errorString());
+            QMetaEnum metaEnum = QMetaEnum::fromType<QNetworkReply::NetworkError>();
+            emit requestError(metaEnum.valueToKey(reply->error()));
         }
         reply->deleteLater();
     });

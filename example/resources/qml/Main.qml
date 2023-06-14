@@ -43,7 +43,7 @@ Window {
     }
 
     onRequestError: function (error) {
-      console.log("Error message:", error)
+      console.log("Error:", error)
     }
   }
 
@@ -60,7 +60,7 @@ Window {
     }
 
     onRequestError: function (error) {
-      console.log("Error message:", error)
+      console.log("Error:", error)
     }
   }
 
@@ -77,7 +77,7 @@ Window {
     }
 
     onRequestError: function (error) {
-      console.log("Error message:", error)
+      console.log("Error:", error)
     }
   }
 
@@ -103,7 +103,7 @@ Window {
     }
 
     onRequestError: function (error) {
-      console.log("Error message:", error)
+      console.log("Error:", error)
     }
   }
 
@@ -121,7 +121,7 @@ Window {
     }
 
     onRequestError: function (error) {
-      console.log("Error message:", error)
+      console.log("Error:", error)
     }
   }
 
@@ -140,7 +140,7 @@ Window {
     }
 
     onRequestError: function (error) {
-      console.log("Error message:", error)
+      console.log("Error:", error)
     }
   }
 
@@ -158,7 +158,7 @@ Window {
     }
 
     onRequestError: function (error) {
-      console.log("Error message:", error)
+      console.log("Error:", error)
     }
   }
 }

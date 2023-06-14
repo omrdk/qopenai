@@ -12,6 +12,10 @@ QOpenAIImageVariations::QOpenAIImageVariations(const QString &image, QObject *pa
 }
 
 void QOpenAIImageVariations::sendRequest() {
+    if(isPathExist(m_image)) {
+        emit requestError("Provided image file path doesn't exist!");
+        return;
+    }
     QNetworkRequest request(getUrl(_endPoint));
     request.setRawHeader("Authorization", ("Bearer " + OPENAI_API_KEY).toUtf8());
     QHttpMultiPart *multiPart = new QHttpMultiPart(QHttpMultiPart::FormDataType);
@@ -46,7 +50,8 @@ void QOpenAIImageVariations::sendRequest() {
             QJsonObject response = QJsonDocument::fromJson(reply->readAll()).object();
             emit requestFinished(response);
         } else {
-            emit requestError(reply->errorString());
+            QMetaEnum metaEnum = QMetaEnum::fromType<QNetworkReply::NetworkError>();
+            emit requestError(metaEnum.valueToKey(reply->error()));
         }
         reply->deleteLater();
     });

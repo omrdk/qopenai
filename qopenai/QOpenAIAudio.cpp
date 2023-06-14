@@ -11,6 +11,10 @@ QOpenAIAudio::QOpenAIAudio(const QString &model, const QString &file, QObject *p
 }
 
 void QOpenAIAudio::sendRequest() {
+    if(isPathExist(m_file)) {
+        emit requestError("Provided audio file path doesn't exist!");
+        return;
+    }
     QNetworkRequest request(getUrl(_endPoint));
     request.setRawHeader("Authorization", ("Bearer " + OPENAI_API_KEY).toUtf8());
     QHttpMultiPart *multiPart = new QHttpMultiPart(QHttpMultiPart::FormDataType);
@@ -41,7 +45,8 @@ void QOpenAIAudio::sendRequest() {
             QJsonObject response = QJsonDocument::fromJson(reply->readAll()).object();
             emit requestFinished(response);
         } else {
-            emit requestError(reply->errorString());
+            QMetaEnum metaEnum = QMetaEnum::fromType<QNetworkReply::NetworkError>();
+            emit requestError(metaEnum.valueToKey(reply->error()));
         }
         reply->deleteLater();
     });

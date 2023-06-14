@@ -63,7 +63,7 @@ public:
     void setSystemMessage(const QString& systemMessage);
 
 private:
-    QString m_model = "";
+    QString m_model = "gpt-3.5-turbo";
     float m_temperature = 1.0;
     float m_topP = 1.0;
     int m_n = 1;

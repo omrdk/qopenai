@@ -25,9 +25,9 @@ public:
         ImageGenerations,
         ImageEdits,
         ImageVariations,
-        Embeddings,
         Transcriptions,
         Translations,
+        Embeddings,
         Moderations
     };
     Q_ENUM(EndPoints)
@@ -37,6 +37,7 @@ public:
     virtual void sendRequest() = 0;
 
     QString getUrl(EndPoints endPoint);
+    bool isPathExist(const QString& path);
 
 protected:
     QNetworkAccessManager* _networkManager = nullptr;

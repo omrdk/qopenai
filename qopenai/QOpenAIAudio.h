@@ -37,7 +37,7 @@ public:
 
 private:
     QString m_file = "";
-    QString m_model = "";
+    QString m_model = "whisper-1";
     QString m_prompt = "";
     QString m_responseFormat = "json";
     float m_temperature = 1.0;
