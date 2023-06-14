@@ -54,11 +54,11 @@ Window {
 
     onRequestFinished: function (jsonObject) {
       const content = jsonObject.choices[0].text
-      openAICompletions.messageModel.insertMessage(content, QOpenAIMessage.Role.ASSISTANT)
+      openAICompletions.messageModel.insertMessage(content, QOpenAIMessage.Role.Assistant)
     }
 
     onRequestError: function (error) {
-      console.log("REQUEST ERROR:", error)
+      console.log("Error message:", error)
     }
   }
 
@@ -81,11 +81,11 @@ Window {
 
     onRequestFinished: function (jsonObject) {
       const content = jsonObject.choices[0].message.content
-      openAIChatCompletions.messageModel.insertMessage(content, QOpenAIMessage.Role.ASSISTANT)
+      openAIChatCompletions.messageModel.insertMessage(content, QOpenAIMessage.Role.Assistant)
     }
 
     onRequestError: function (error) {
-      console.log("REQUEST ERROR:", error)
+      console.log("Error message:", error)
     }
   }
 
@@ -102,11 +102,11 @@ Window {
 
     onRequestFinished: function (jsonObject) {
       const content = jsonObject.choices[0].text
-      openAIEdits.messageModel.insertMessage(content, QOpenAIMessage.Role.ASSISTANT)
+      openAIEdits.messageModel.insertMessage(content, QOpenAIMessage.Role.Assistant)
     }
 
     onRequestError: function (error) {
-      console.log("REQUEST ERROR:", error)
+      console.log("Error message:", error)
     }
   }
 
@@ -127,14 +127,15 @@ Window {
     model: "whisper-1"
     responseFormat: "json"
     temperature: 1.0
+    file: ""
 
     onRequestFinished: function (jsonObject) {
       const content = jsonObject.text
-      openAIAudio.messageModel.insertMessage(content, QOpenAIMessage.Role.ASSISTANT)
+      openAIAudio.messageModel.insertMessage(content, QOpenAIMessage.Role.Assistant)
     }
 
     onRequestError: function (error) {
-      console.log("REQUEST ERROR:", error)
+      console.log("Error message:", error)
     }
   }
 
@@ -152,12 +153,12 @@ Window {
       let imageUrls = jsonObject.data
       for (var i = 0; i < imageUrls.length; i++) {
         let url = imageUrls[i].url
-        openAIImage.messageModel.insertMessage(url, QOpenAIMessage.Role.ASSISTANT)
+        openAIImage.messageModel.insertMessage(url, QOpenAIMessage.Role.Assistant)
       }
     }
 
     onRequestError: function (error) {
-      console.log("REQUEST ERROR:", error)
+      console.log("Error message:", error)
     }
   }
 
@@ -177,12 +178,12 @@ Window {
       let imageUrls = jsonObject.data
       for (var i = 0; i < imageUrls.length; i++) {
         let url = imageUrls[i].url
-        openAIImageEdits.messageModel.insertMessage(url, QOpenAIMessage.Role.ASSISTANT)
+        openAIImageEdits.messageModel.insertMessage(url, QOpenAIMessage.Role.Assistant)
       }
     }
 
     onRequestError: function (error) {
-      console.log("REQUEST ERROR:", error)
+      console.log("Error message:", error)
     }
   }
 
@@ -200,12 +201,12 @@ Window {
       let imageUrls = jsonObject.data
       for (var i = 0; i < imageUrls.length; i++) {
         let url = imageUrls[i].url
-        openAIImageVariations.messageModel.insertMessage(url, QOpenAIMessage.Role.ASSISTANT)
+        openAIImageVariations.messageModel.insertMessage(url, QOpenAIMessage.Role.Assistant)
       }
     }
 
     onRequestError: function (error) {
-      console.log("REQUEST ERROR:", error)
+      console.log("Error message:", error)
     }
   }
 }

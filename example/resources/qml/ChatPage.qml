@@ -106,16 +106,16 @@ Rectangle {
       onSendClicked: function (content) {
         switch (endPoints.currentEndpoint) {
         case QOpenAI.Completions:
-          openAICompletions.messageModel.insertMessage(content, QOpenAIMessage.Role.UNDEFINED)
+          openAICompletions.messageModel.insertMessage(content, QOpenAIMessage.Role.Undefined)
           openAICompletions.prompt = content
           openAICompletions.sendRequest()
           break
         case QOpenAI.ChatCompletions:
-          openAIChatCompletions.messageModel.insertMessage(content, QOpenAIMessage.Role.USER)
+          openAIChatCompletions.messageModel.insertMessage(content, QOpenAIMessage.Role.User)
           openAIChatCompletions.sendRequest()
           break
         case QOpenAI.Edits:
-          openAIEdits.messageModel.insertMessage(content, QOpenAIMessage.Role.UNDEFINED)
+          openAIEdits.messageModel.insertMessage(content, QOpenAIMessage.Role.Undefined)
           openAIEdits.input = content
           openAIEdits.sendRequest()
           break
@@ -125,7 +125,7 @@ Rectangle {
           openAIAudio.sendRequest()
           break
         case QOpenAI.ImageGenerations:
-          openAIImage.messageModel.insertMessage(content, QOpenAIMessage.Role.UNDEFINED)
+          openAIImage.messageModel.insertMessage(content, QOpenAIMessage.Role.Undefined)
           openAIImage.prompt = content
           openAIImage.sendRequest()
           break

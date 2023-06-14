@@ -17,13 +17,13 @@ QOpenAIMessage::Role QOpenAIMessage::getRole() const
 QString QOpenAIMessage::getRoleString() const
 {
     switch (_role) {
-    case Role::UNDEFINED:
+    case Role::Undefined:
         break;
-    case Role::USER:
+    case Role::User:
         return "user";
-    case Role::ASSISTANT:
+    case Role::Assistant:
         return "assistant";
-    case Role::SYSTEM:
+    case Role::System:
         return "system";
     }
     return "";
