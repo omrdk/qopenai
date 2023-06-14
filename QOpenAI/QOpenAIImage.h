@@ -7,35 +7,45 @@
 class QOpenAIImage : public QOpenAI
 {
     Q_OBJECT
-    Q_PROPERTY(QString prompt MEMBER _prompt NOTIFY promptChanged);
-    Q_PROPERTY(QString image MEMBER _image NOTIFY imageChanged);
-    Q_PROPERTY(QString mask MEMBER _mask NOTIFY maskChanged);
-    Q_PROPERTY(int n MEMBER _n NOTIFY nChanged);
-    Q_PROPERTY(QString imageSize MEMBER _imageSize NOTIFY imageSizeChanged);
-    Q_PROPERTY(QString responseFormat MEMBER _responseFormat NOTIFY responseFormatChanged);
-    Q_PROPERTY(QString user MEMBER _user NOTIFY userChanged);
+    Q_PROPERTY(QString prompt READ getPrompt WRITE setPrompt NOTIFY promptChanged)
+    Q_PROPERTY(int n READ getN WRITE setN NOTIFY nChanged)
+    Q_PROPERTY(QString size READ getSize WRITE setSize NOTIFY sizeChanged)
+    Q_PROPERTY(QString responseFormat READ getResponseFormat WRITE setResponseFormat NOTIFY responseFormatChanged)
+    Q_PROPERTY(QString user READ getUser WRITE setUser NOTIFY userChanged)
     QML_ELEMENT
 
 public:
     explicit QOpenAIImage(QObject *parent = nullptr);
+    explicit QOpenAIImage(const QString& prompt, QObject *parent = nullptr);
 
     Q_INVOKABLE void sendRequest() override;
 
+    QString getPrompt() const;
+    void setPrompt(const QString& prompt);
+
+    int getN() const;
+    void setN(int n);
+
+    QString getSize() const;
+    void setSize(const QString& size);
+
+    QString getResponseFormat() const;
+    void setResponseFormat(const QString& responseFormat);
+
+    QString getUser() const;
+    void setUser(const QString& user);
+
 private:
-    QString _prompt = "";
-    QString _image = "";
-    QString _mask = "";
-    int _n = 1;
-    QString _imageSize = "";
-    QString _responseFormat = "";
-    QString _user = "";
+    QString m_prompt = "";
+    int m_n = 1;
+    QString m_size = "1024x1024";
+    QString m_responseFormat = "url";
+    QString m_user = "";
 
 signals:
     void promptChanged();
-    void imageChanged();
-    void maskChanged();
     void nChanged();
-    void imageSizeChanged();
+    void sizeChanged();
     void responseFormatChanged();
     void userChanged();
 };

@@ -4,6 +4,12 @@ QOpenAIAudio::QOpenAIAudio(QObject *parent) : QOpenAI{parent} {
 
 }
 
+QOpenAIAudio::QOpenAIAudio(const QString &model, const QString &file, QObject *parent)
+    : QOpenAI{parent}, m_model(model), m_file(file)
+{
+
+}
+
 void QOpenAIAudio::sendRequest() {
     QNetworkRequest request(getUrl(_endPoint));
     request.setRawHeader("Authorization", ("Bearer " + OPENAI_API_KEY).toUtf8());
@@ -11,16 +17,16 @@ void QOpenAIAudio::sendRequest() {
     QHttpPart modelPart;
     modelPart.setHeader(QNetworkRequest::ContentTypeHeader, "text/plain");
     modelPart.setHeader(QNetworkRequest::ContentDispositionHeader, "form-data; name=\"model\"");
-    modelPart.setBody(_model.toUtf8());
-    QFileInfo audioFileInfo(_file);
+    modelPart.setBody(m_model.toUtf8());
+    QFileInfo audioFileInfo(m_file);
     QHttpPart filePart;
     filePart.setHeader(QNetworkRequest::ContentTypeHeader, "audio/wav");
     filePart.setHeader(QNetworkRequest::ContentDispositionHeader, "form-data; name=\"file\"; filename=\"" + audioFileInfo.fileName() + "\"");
-    QUrl fileUrl(_file);
+    QUrl fileUrl(m_file);
     if(fileUrl.isLocalFile()) {
-        _file = fileUrl.toLocalFile();
+        m_file = fileUrl.toLocalFile();
     }
-    QFile *file = new QFile(_file);
+    QFile *file = new QFile(m_file);
     file->open(QIODevice::ReadOnly);
     filePart.setBodyDevice(file);
     file->setParent(multiPart);
@@ -39,4 +45,59 @@ void QOpenAIAudio::sendRequest() {
         }
         reply->deleteLater();
     });
+}
+
+QString QOpenAIAudio::getFile() const {
+    return m_file;
+}
+
+void QOpenAIAudio::setFile(const QString& file) {
+    if (m_file != file) {
+        m_file = file;
+        emit fileChanged();
+    }
+}
+
+QString QOpenAIAudio::getModel() const {
+    return m_model;
+}
+
+void QOpenAIAudio::setModel(const QString& model) {
+    if (m_model != model) {
+        m_model = model;
+        emit modelChanged();
+    }
+}
+
+QString QOpenAIAudio::getPrompt() const {
+    return m_prompt;
+}
+
+void QOpenAIAudio::setPrompt(const QString& prompt) {
+    if (m_prompt != prompt) {
+        m_prompt = prompt;
+        emit promptChanged();
+    }
+}
+
+QString QOpenAIAudio::getResponseFormat() const {
+    return m_responseFormat;
+}
+
+void QOpenAIAudio::setResponseFormat(const QString& responseFormat) {
+    if (m_responseFormat != responseFormat) {
+        m_responseFormat = responseFormat;
+        emit responseFormatChanged();
+    }
+}
+
+float QOpenAIAudio::getTemperature() const {
+    return m_temperature;
+}
+
+void QOpenAIAudio::setTemperature(float temperature) {
+    if (m_temperature != temperature) {
+        m_temperature = temperature;
+        emit temperatureChanged();
+    }
 }

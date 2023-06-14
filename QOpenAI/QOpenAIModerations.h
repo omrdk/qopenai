@@ -6,17 +6,25 @@
 class QOpenAIModerations : public QOpenAI
 {
     Q_OBJECT
-    Q_PROPERTY(QString input MEMBER _input NOTIFY inputChanged);
-    Q_PROPERTY(QString model MEMBER _model NOTIFY modelChanged);
+    Q_PROPERTY(QString input READ getInput WRITE setInput NOTIFY inputChanged)
+    Q_PROPERTY(QString model READ getModel WRITE setModel NOTIFY modelChanged)
     QML_ELEMENT
+
 public:
     explicit QOpenAIModerations(QObject *parent = nullptr);
+    explicit QOpenAIModerations(const QString& input, QObject *parent = nullptr);
 
     Q_INVOKABLE void sendRequest() override;
 
+    QString getInput() const;
+    void setInput(const QString& input);
+
+    QString getModel() const;
+    void setModel(const QString& model);
+
 private:
-    QString _input = "";
-    QString _model = "";
+    QString m_input = "";
+    QString m_model = "";
 
 signals:
     void inputChanged();
