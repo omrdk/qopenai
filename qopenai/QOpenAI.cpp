@@ -19,13 +19,17 @@ QString QOpenAI::getUrl(EndPoints endPoint) {
         return url + "/v1/images/edits";
     case EndPoints::ImageVariations:
         return url + "/v1/images/variations";
-    case EndPoints::Embeddings:
-        return url + "/v1/embeddings";
     case EndPoints::Transcriptions:
         return url + "/v1/audio/transcriptions";
     case EndPoints::Translations:
         return url + "/v1/audio/translations";
+    case EndPoints::Embeddings:
+        return url + "/v1/embeddings";
     case EndPoints::Moderations:
         return url + "/v1/moderations";
     }
+}
+
+bool QOpenAI::isPathExist(const QString &path) {
+    return QFile::exists(path);
 }
