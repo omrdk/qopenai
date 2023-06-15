@@ -36,21 +36,6 @@ Window {
 
     endPoint: QOpenAI.Completions
     model: "text-davinci-003"
-    prompt: ""
-    suffix: ""
-    maxTokens: 16
-    temperature: 1.0
-    topP: 1.0
-    n: 1
-    stream: false
-    logProbs: 0
-    echo: false
-    stop: ""
-    presencePenalty: 0.0
-    frequencyPenalty: 0.0
-    bestOf: 1
-    logitBias: []
-    user: ""
 
     onRequestFinished: function (jsonObject) {
       const content = jsonObject.choices[0].text
@@ -58,7 +43,7 @@ Window {
     }
 
     onRequestError: function (error) {
-      console.log("Error message:", error)
+      console.log("Error:", error)
     }
   }
 
@@ -67,16 +52,6 @@ Window {
 
     endPoint: QOpenAI.ChatCompletions
     model: "gpt-3.5-turbo"
-    temperature: 1.0
-    topP: 1.0
-    n: 1
-    stream: false
-    stop: ""
-    maxTokens: 2048
-    presencePenalty: 0.0
-    frequencyPenalty: 0.0
-    logitBias: []
-    user: ""
     systemMessage: chatPage.instructionItem.text
 
     onRequestFinished: function (jsonObject) {
@@ -85,7 +60,7 @@ Window {
     }
 
     onRequestError: function (error) {
-      console.log("Error message:", error)
+      console.log("Error:", error)
     }
   }
 
@@ -94,11 +69,7 @@ Window {
 
     endPoint: QOpenAI.Edits
     model: "text-davinci-edit-001" // code-davinci-edit-001
-    input: chatPage.instructionItem.text
     instruction: chatPage.instructionItem.text
-    n: 1
-    temperature: 1.0
-    topP: 1.0
 
     onRequestFinished: function (jsonObject) {
       const content = jsonObject.choices[0].text
@@ -106,7 +77,7 @@ Window {
     }
 
     onRequestError: function (error) {
-      console.log("Error message:", error)
+      console.log("Error:", error)
     }
   }
 
@@ -125,9 +96,6 @@ Window {
     }
 
     model: "whisper-1"
-    responseFormat: "json"
-    temperature: 1.0
-    file: ""
 
     onRequestFinished: function (jsonObject) {
       const content = jsonObject.text
@@ -135,7 +103,7 @@ Window {
     }
 
     onRequestError: function (error) {
-      console.log("Error message:", error)
+      console.log("Error:", error)
     }
   }
 
@@ -143,11 +111,6 @@ Window {
     id: openAIImage
 
     endPoint: QOpenAI.ImageGenerations
-    prompt: ""
-    n: 1
-    imageSize: "512x512"
-    responseFormat: "url"
-    user: ""
 
     onRequestFinished: function (jsonObject) {
       let imageUrls = jsonObject.data
@@ -158,7 +121,7 @@ Window {
     }
 
     onRequestError: function (error) {
-      console.log("Error message:", error)
+      console.log("Error:", error)
     }
   }
 
@@ -166,13 +129,7 @@ Window {
     id: openAIImageEdits
 
     endPoint: QOpenAI.ImageEdits
-    image: ""
-    mask: ""
-    prompt: chatPage.inputItem.textAreaItem.text
-    n: 1
-    imageSize: "512x512"
-    responseFormat: "url"
-    user: ""
+    prompt: chatPage.inputItem.textAreaItem.text // take care of this
 
     onRequestFinished: function (jsonObject) {
       let imageUrls = jsonObject.data
@@ -183,7 +140,7 @@ Window {
     }
 
     onRequestError: function (error) {
-      console.log("Error message:", error)
+      console.log("Error:", error)
     }
   }
 
@@ -191,11 +148,6 @@ Window {
     id: openAIImageVariations
 
     endPoint: QOpenAI.ImageVariations
-    image: ""
-    n: 1
-    imageSize: "512x512"
-    responseFormat: "url"
-    user: ""
 
     onRequestFinished: function (jsonObject) {
       let imageUrls = jsonObject.data
@@ -206,7 +158,7 @@ Window {
     }
 
     onRequestError: function (error) {
-      console.log("Error message:", error)
+      console.log("Error:", error)
     }
   }
 }
