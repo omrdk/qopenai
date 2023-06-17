@@ -121,6 +121,7 @@ Rectangle {
           break
         case QOpenAI.Transcriptions:
         case QOpenAI.Translations:
+          console.log("Audio file:", content)
           openAIAudio.file = content
           openAIAudio.sendRequest()
           break
