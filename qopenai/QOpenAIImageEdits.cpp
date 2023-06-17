@@ -11,7 +11,7 @@ QOpenAIImageEdits::QOpenAIImageEdits(const QString &image, const QString &prompt
 }
 
 void QOpenAIImageEdits::sendRequest() {
-    if(isPathExist(m_image)) {
+    if(!isPathExist(m_image)) {
         emit requestError("Provided image file path doesn't exist!");
         return;
     }

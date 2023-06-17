@@ -11,7 +11,7 @@ QOpenAIAudio::QOpenAIAudio(const QString &model, const QString &file, QObject *p
 }
 
 void QOpenAIAudio::sendRequest() {
-    if(isPathExist(m_file)) {
+    if(!isPathExist(m_file)) {
         emit requestError("Provided audio file path doesn't exist!");
         return;
     }
@@ -40,7 +40,6 @@ void QOpenAIAudio::sendRequest() {
     multiPart->setParent(reply);
     connect(reply, &QNetworkReply::finished, this, [this, file, reply]() {
         file->close();
-        qDebug() << reply->error();
         if (reply->error() == QNetworkReply::NoError) {
             QJsonObject response = QJsonDocument::fromJson(reply->readAll()).object();
             emit requestFinished(response);

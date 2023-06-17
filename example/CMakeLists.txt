@@ -42,7 +42,10 @@ qt6_add_qml_module(appexample
 
 include_directories(inc)
 
+#
 add_subdirectory(${CMAKE_SOURCE_DIR}/../qopenai ${CMAKE_BINARY_DIR}/qopenai)
+
+add_subdirectory(${CMAKE_SOURCE_DIR}/../test ${CMAKE_BINARY_DIR}/test)
 
 if(APPLE)
     set_target_properties(appexample PROPERTIES

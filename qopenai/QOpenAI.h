@@ -14,7 +14,7 @@ class QOpenAI : public QObject
 {
     Q_OBJECT
     Q_PROPERTY(QOpenAIMessageModel* messageModel MEMBER _messageModel NOTIFY messageModelChanged)
-    Q_PROPERTY(EndPoints endPoint MEMBER _endPoint NOTIFY endPointChanged)
+    Q_PROPERTY(EndPoints endPoint READ getEndPoint WRITE setEndPoint NOTIFY endPointChanged)
     QML_ELEMENT
 
 public:
@@ -28,7 +28,8 @@ public:
         Transcriptions,
         Translations,
         Embeddings,
-        Moderations
+        Moderations,
+        Undefined
     };
     Q_ENUM(EndPoints)
 
@@ -36,13 +37,18 @@ public:
     virtual ~QOpenAI() {};
     virtual void sendRequest() = 0;
 
+    QOpenAIMessageModel* getMessageModel() const;
+
+    EndPoints getEndPoint() const;
+    void setEndPoint(EndPoints endPoint);
+
     QString getUrl(EndPoints endPoint);
     bool isPathExist(const QString& path);
 
 protected:
     QNetworkAccessManager* _networkManager = nullptr;
     QOpenAIMessageModel* _messageModel = nullptr;
-    EndPoints _endPoint = EndPoints::ChatCompletions;
+    EndPoints _endPoint = EndPoints::Undefined;
 
 signals:
     void requestFinished(const QJsonObject& response);

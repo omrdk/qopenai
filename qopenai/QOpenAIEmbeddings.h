@@ -27,7 +27,7 @@ public:
     void setUser(const QString& user);
 
 private:
-    QString m_model = "";
+    QString m_model = "text-embedding-ada-002";
     QString m_input = "";
     QString m_user = "";
 

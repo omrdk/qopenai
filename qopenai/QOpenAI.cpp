@@ -4,6 +4,21 @@ QOpenAI::QOpenAI(QObject *parent) : _networkManager(new QNetworkAccessManager(th
 
 }
 
+QOpenAIMessageModel *QOpenAI::getMessageModel() const {
+    return _messageModel;
+}
+
+QOpenAI::EndPoints QOpenAI::getEndPoint() const {
+    return _endPoint;
+}
+
+void QOpenAI::setEndPoint(EndPoints endPoint) {
+    if(_endPoint != endPoint) {
+        _endPoint = endPoint;
+        emit endPointChanged();
+    }
+}
+
 QString QOpenAI::getUrl(EndPoints endPoint) {
     QString url = "https://api.openai.com";
     switch (endPoint) {

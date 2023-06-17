@@ -24,7 +24,7 @@ public:
 
 private:
     QString m_input = "";
-    QString m_model = "";
+    QString m_model = "text-moderation-latest"; // or text-moderation-stable
 
 signals:
     void inputChanged();
