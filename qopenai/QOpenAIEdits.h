@@ -39,7 +39,7 @@ public:
     void setTopP(float topP);
 
 private:
-    QString m_model = "text-davinci-edit-001"; // or code-davinci-edit-001
+    QString m_model = "text-davinci-edit-001";
     QString m_input = "";
     QString m_instruction = "";
     int m_n = 1;

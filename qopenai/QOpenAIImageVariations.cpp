@@ -12,7 +12,7 @@ QOpenAIImageVariations::QOpenAIImageVariations(const QString &image, QObject *pa
 }
 
 void QOpenAIImageVariations::sendRequest() {
-    if(isPathExist(m_image)) {
+    if(!isPathExist(m_image)) {
         emit requestError("Provided image file path doesn't exist!");
         return;
     }

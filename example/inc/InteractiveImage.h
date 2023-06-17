@@ -9,7 +9,7 @@
 #include <QFileInfo>
 
 /*!
- * \brief Costum QQuickItem to remove alpha channel partially on its reposible to load/save image/mask images
+ * \brief Costum QQuickItem to remove alpha channel partially from an image in order to create the mask image
  */
 class InteractiveImage : public QQuickPaintedItem
 {

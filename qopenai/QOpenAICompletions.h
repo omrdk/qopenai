@@ -114,6 +114,7 @@ signals:
     void bestOfChanged();
     void logitBiasChanged();
     void userChanged();
+
 };
 
 #endif // QOPENAICOMPLETIONS_H
