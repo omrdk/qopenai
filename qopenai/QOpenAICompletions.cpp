@@ -1,4 +1,5 @@
 #include "QOpenAICompletions.h"
+#include "QOpenAIAuthorization.h"
 
 QOpenAICompletions::QOpenAICompletions(QObject *parent) : QOpenAI{parent} {
 
@@ -12,8 +13,9 @@ QOpenAICompletions::QOpenAICompletions(const QString &model, QObject *parent)
 
 void QOpenAICompletions::sendRequest() {
     QNetworkRequest request(getUrl(_endPoint));
+    const auto key = QOpenAIAuthorization::Authorizer().getKey();
     request.setHeader(QNetworkRequest::ContentTypeHeader, "application/json");
-    request.setRawHeader("Authorization", ("Bearer " + OPENAI_API_KEY).toUtf8());
+    request.setRawHeader("Authorization", ("Bearer " + key).toUtf8());
     QJsonObject body;
     body.insert("model", m_model);
     body.insert("prompt", m_prompt);

@@ -1,6 +1,5 @@
 #include "QOpenAIImageVariations.h"
-
-#include <QImageReader>
+#include "QOpenAIAuthorization.h"
 
 QOpenAIImageVariations::QOpenAIImageVariations(QObject *parent) : QOpenAI{parent} {
 }
@@ -17,7 +16,8 @@ void QOpenAIImageVariations::sendRequest() {
         return;
     }
     QNetworkRequest request(getUrl(_endPoint));
-    request.setRawHeader("Authorization", ("Bearer " + OPENAI_API_KEY).toUtf8());
+    const auto key = QOpenAIAuthorization::Authorizer().getKey();
+    request.setRawHeader("Authorization", ("Bearer " + key).toUtf8());
     QHttpMultiPart *multiPart = new QHttpMultiPart(QHttpMultiPart::FormDataType);
     QFileInfo fileInfo(m_image);
     QHttpPart imagePart;

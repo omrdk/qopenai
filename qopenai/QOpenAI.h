@@ -8,8 +8,6 @@
 
 #include "QOpenAIMessageModel.h"
 
-#define OPENAI_API_KEY qEnvironmentVariable("OPENAI_API_KEY")
-
 class QOpenAI : public QObject
 {
     Q_OBJECT

@@ -1,4 +1,5 @@
 #include "QOpenAIModerations.h"
+#include "QOpenAIAuthorization.h"
 
 QOpenAIModerations::QOpenAIModerations(QObject *parent) : QOpenAI{parent} {
 
@@ -12,7 +13,8 @@ QOpenAIModerations::QOpenAIModerations(const QString &input, QObject *parent)
 
 void QOpenAIModerations::sendRequest() {
     QNetworkRequest request(getUrl(_endPoint));
-    request.setRawHeader("Authorization", ("Bearer " + OPENAI_API_KEY).toUtf8());
+    const auto key = QOpenAIAuthorization::Authorizer().getKey();
+    request.setRawHeader("Authorization", ("Bearer " + key).toUtf8());
     request.setHeader(QNetworkRequest::ContentTypeHeader, "application/json");
     QJsonObject body;
     body.insert("input", m_input);

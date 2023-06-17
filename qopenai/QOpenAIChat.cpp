@@ -1,4 +1,5 @@
 #include "QOpenAIChat.h"
+#include "QOpenAIAuthorization.h"
 
 QOpenAIChat::QOpenAIChat(QObject *parent) : QOpenAI{parent} {
 
@@ -16,8 +17,9 @@ void QOpenAIChat::sendRequest() {
         return;
     }
     QNetworkRequest request(getUrl(_endPoint));
+    const auto key = QOpenAIAuthorization::Authorizer().getKey();
     request.setHeader(QNetworkRequest::ContentTypeHeader, "application/json");
-    request.setRawHeader("Authorization", ("Bearer " + OPENAI_API_KEY).toUtf8());
+    request.setRawHeader("Authorization", ("Bearer " + key).toUtf8());
     QJsonObject body;
     body.insert("model", m_model);
     QJsonArray messagesBranch;
