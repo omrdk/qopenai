@@ -19,9 +19,7 @@ OpenAI plugin for QML or a library for C++ that could be used in Qt-based projec
 
 ## `Authentication`
 
-Example checks if the OPENAI_API_KEY environment variable before starting the application. So, add the environment variable to the selected kit's run configuration on Qt Creator:
-
-Set OPENAI_API_KEY in Qt Creator to run the example to interact with the OpenAI endpoints:
+Make sure you defined OPENAI_API_KEY environment. You could also do that active kit's run configuration on Qt Creator:
 
 Projects -> Your kit -> Run -> Environment -> Details -> Add: OPENAI_API_KEY="your-key"
 
