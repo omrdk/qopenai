@@ -1,34 +1,52 @@
-```
-import QOpenAI
+```qml
+  import QOpenAI
 
-QOpenAIAudio {
-  id: openAIAudioTranscriptions
+  QOpenAIAudio {
+    id: openAIAudioTranscriptions
 
-  endPoint: QOpenAI.Transcriptions
+    endPoint: QOpenAI.Transcriptions
+    model: "whisper-1"
 
-  model: "whisper-1"
-  responseFormat: "json"
-  temperature: 1.0
+    onRequestFinished: function (jsonObject) {
+      const content = jsonObject.text
+      console.log("Content:", content)
+    }
 
-  onRequestFinished: function (jsonObject) {
-    const content = jsonObject.text
-    console.log("Message:", content)
+    onRequestError: function (error) {
+      console.log("Error message:", error)
+    }
   }
 
-  onRequestError: function (error) {
-    console.log("Error message:", error)
+  // somewhere in the Qml code
+  onRecordingStarted: {
+    // start to record audio
   }
-}
 
-// somewhere in the Qml code
-onRecordingStarted: {
-  // start to record audio
-}
-
-onRecordingFinished: function(audioFile){
-  // stop recording and then:
-  openAIAudioTranscriptions.file = audioFile
-  openAIAudioTranscriptions.sendRequest()
-}
+  onRecordingFinished: function(audioFile){
+    // stop recording, then:
+    openAIAudioTranscriptions.file = audioFile
+    openAIAudioTranscriptions.sendRequest()
+  }
   
+```
+
+```c++
+  #include <QOpenAIAudio.h>
+
+  QOpenAIAudio transcriptions;
+  transcriptions.setEndPoint(QOpenAI::EndPoints::Transcriptions);
+  transcriptions.setModel("whisper-1");
+  transcriptions.setFile(QDir::currentPath() + "/assets/audio.m4a");
+  transcriptions.setLanguage("tr");
+  
+  connect(&transcriptions, &QOpenAIAudio::requestFinished, this, [&](const QJsonObject& response) {
+    QString content = response.value("text").toString();
+    qDebug() << content;
+  });
+  
+  connect(&transcriptions, &QOpenAIAudio::requestError, this, [&](const QString& error) {
+    qDebug() << error;
+  });
+  
+  transcriptions.sendRequest();
 ```
