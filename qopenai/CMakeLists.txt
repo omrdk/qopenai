@@ -37,6 +37,7 @@ qt6_add_qml_module(${PROJECT_NAME}
         QOpenAIEmbeddings.h
         QOpenAIModerations.cpp
         QOpenAIModerations.h
+        QOpenAIAuthorization.h
     RESOURCE_PREFIX /
 )
 

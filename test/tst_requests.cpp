@@ -26,6 +26,8 @@ private slots:
     void testImageGenerationsRequest();
     void testImageEdits();
     void testImageVariations();
+    void testTransciptions();
+    void testTranslations();
     void testEmbeddings();
     void testModerations();
 };
@@ -131,6 +133,43 @@ void EndPointRequest::testImageVariations() {
     QSignalSpy errorSpy(&imageVariations, &QOpenAIImageVariations::requestError);
 
     imageVariations.sendRequest();
+    finishedSpy.wait(10000);
+
+    if (!errorSpy.isEmpty()) {
+        QString error = errorSpy.at(0).at(0).toString();
+        QFAIL(error.toStdString().c_str());
+    }
+}
+
+void EndPointRequest::testTransciptions() {
+    QOpenAIAudio transcriptions;
+    transcriptions.setEndPoint(QOpenAI::EndPoints::Transcriptions);
+    transcriptions.setModel("whisper-1");
+    transcriptions.setFile(QDir::currentPath() + "/assets/audio.m4a"); // extension depend on OS since default selected
+    transcriptions.setLanguage("tr");
+
+    QSignalSpy finishedSpy(&transcriptions, &QOpenAIAudio::requestFinished);
+    QSignalSpy errorSpy(&transcriptions, &QOpenAIAudio::requestError);
+
+    transcriptions.sendRequest();
+    finishedSpy.wait(10000);
+
+    if (!errorSpy.isEmpty()) {
+        QString error = errorSpy.at(0).at(0).toString();
+        QFAIL(error.toStdString().c_str());
+    }
+}
+
+void EndPointRequest::testTranslations() {
+    QOpenAIAudio translations;
+    translations.setEndPoint(QOpenAI::EndPoints::Translations);
+    translations.setModel("whisper-1");
+    translations.setFile(QDir::currentPath() + "/assets/audio.m4a"); // extension depend on OS since default selected
+
+    QSignalSpy finishedSpy(&translations, &QOpenAIAudio::requestFinished);
+    QSignalSpy errorSpy(&translations, &QOpenAIAudio::requestError);
+
+    translations.sendRequest();
     finishedSpy.wait(10000);
 
     if (!errorSpy.isEmpty()) {

@@ -1,4 +1,5 @@
 #include "QOpenAIImage.h"
+#include "QOpenAIAuthorization.h"
 
 QOpenAIImage::QOpenAIImage(QObject *parent) : QOpenAI{parent} {
 
@@ -12,8 +13,9 @@ QOpenAIImage::QOpenAIImage(const QString &prompt, QObject *parent)
 
 void QOpenAIImage::sendRequest() {
     QNetworkRequest request(getUrl(_endPoint));
+    const auto key = QOpenAIAuthorization::Authorizer().getKey();
     request.setHeader(QNetworkRequest::ContentTypeHeader, "application/json");
-    request.setRawHeader("Authorization", ("Bearer " + OPENAI_API_KEY).toUtf8());
+    request.setRawHeader("Authorization", ("Bearer " + key).toUtf8());
     QJsonObject body;
     body.insert("prompt", m_prompt);
     body.insert("n", m_n);

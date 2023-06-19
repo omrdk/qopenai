@@ -2,6 +2,8 @@
 #include <QGuiApplication>
 #include <QQmlApplicationEngine>
 
+#include <QOpenAIAuthorization.h>
+
 #ifdef Q_OS_IOS
 #include "ImagePicker.h"
 #endif
@@ -12,9 +14,9 @@ int main(int argc, char *argv[])
 
     QQmlApplicationEngine engine;
 
-    if(qEnvironmentVariable("OPENAI_API_KEY").isEmpty()) {
-        qDebug() << "OPENAI_API_KEY env var not defined!";
-        return 1;
+    if(QOpenAIAuthorization::Authorizer().getKey().isEmpty()) {
+        qDebug() << "Key not defined!";
+        return EXIT_FAILURE;
     }
 
     #ifdef Q_OS_IOS
@@ -24,7 +26,7 @@ int main(int argc, char *argv[])
     engine.load(QStringLiteral("qrc:/example/resources/qml/Main.qml"));
 
     if (engine.rootObjects().isEmpty()) {
-        return -1;
+        return EXIT_FAILURE;
     }
 
     return app.exec();

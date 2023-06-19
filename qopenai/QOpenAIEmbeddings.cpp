@@ -1,4 +1,5 @@
 #include "QOpenAIEmbeddings.h"
+#include "QOpenAIAuthorization.h"
 
 QOpenAIEmbeddings::QOpenAIEmbeddings(QObject *parent) : QOpenAI{parent} {
 
@@ -12,7 +13,8 @@ QOpenAIEmbeddings::QOpenAIEmbeddings(const QString &model, const QString &input,
 
 void QOpenAIEmbeddings::sendRequest() {
     QNetworkRequest request(getUrl(_endPoint));
-    request.setRawHeader("Authorization", ("Bearer " + OPENAI_API_KEY).toUtf8());
+    const auto key = QOpenAIAuthorization::Authorizer().getKey();
+    request.setRawHeader("Authorization", ("Bearer " + key).toUtf8());
     request.setHeader(QNetworkRequest::ContentTypeHeader, "application/json");
     QJsonObject body;
     body.insert("model", m_model);

@@ -1,4 +1,5 @@
 #include "QOpenAIAudio.h"
+#include "QOpenAIAuthorization.h"
 
 QOpenAIAudio::QOpenAIAudio(QObject *parent) : QOpenAI{parent} {
 
@@ -11,12 +12,17 @@ QOpenAIAudio::QOpenAIAudio(const QString &model, const QString &file, QObject *p
 }
 
 void QOpenAIAudio::sendRequest() {
+    QUrl fileUrl(m_file);
+    if(fileUrl.isLocalFile()) {
+        m_file = fileUrl.toLocalFile();
+    }
     if(!isPathExist(m_file)) {
         emit requestError("Provided audio file path doesn't exist!");
         return;
     }
     QNetworkRequest request(getUrl(_endPoint));
-    request.setRawHeader("Authorization", ("Bearer " + OPENAI_API_KEY).toUtf8());
+    const auto key = QOpenAIAuthorization::Authorizer().getKey();
+    request.setRawHeader("Authorization", ("Bearer " + key).toUtf8());
     QHttpMultiPart *multiPart = new QHttpMultiPart(QHttpMultiPart::FormDataType);
     QHttpPart modelPart;
     modelPart.setHeader(QNetworkRequest::ContentTypeHeader, "text/plain");
@@ -26,16 +32,19 @@ void QOpenAIAudio::sendRequest() {
     QHttpPart filePart;
     filePart.setHeader(QNetworkRequest::ContentTypeHeader, "audio/wav");
     filePart.setHeader(QNetworkRequest::ContentDispositionHeader, "form-data; name=\"file\"; filename=\"" + audioFileInfo.fileName() + "\"");
-    QUrl fileUrl(m_file);
-    if(fileUrl.isLocalFile()) {
-        m_file = fileUrl.toLocalFile();
-    }
     QFile *file = new QFile(m_file);
     file->open(QIODevice::ReadOnly);
     filePart.setBodyDevice(file);
     file->setParent(multiPart);
     multiPart->append(filePart);
     multiPart->append(modelPart);
+    if(_endPoint == QOpenAI::EndPoints::Transcriptions) {
+        QHttpPart languagePart;
+        languagePart.setHeader(QNetworkRequest::ContentTypeHeader, "text/plain");
+        languagePart.setHeader(QNetworkRequest::ContentDispositionHeader, "form-data; name=\"language\"");
+        languagePart.setBody(m_language.toUtf8());
+        multiPart->append(languagePart);
+    }
     QNetworkReply *reply = _networkManager->post(request, multiPart);
     multiPart->setParent(reply);
     connect(reply, &QNetworkReply::finished, this, [this, file, reply]() {
@@ -103,5 +112,16 @@ void QOpenAIAudio::setTemperature(float temperature) {
     if (m_temperature != temperature) {
         m_temperature = temperature;
         emit temperatureChanged();
+    }
+}
+
+QString QOpenAIAudio::getLanguage() const {
+    return m_language;
+}
+
+void QOpenAIAudio::setLanguage(const QString &language) {
+    if(m_language != language) {
+        m_language = language;
+        emit languageChanged();
     }
 }

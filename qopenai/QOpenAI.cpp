@@ -42,6 +42,8 @@ QString QOpenAI::getUrl(EndPoints endPoint) {
         return url + "/v1/embeddings";
     case EndPoints::Moderations:
         return url + "/v1/moderations";
+    default:
+        return url + "";
     }
 }
 
