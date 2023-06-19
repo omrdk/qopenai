@@ -1,6 +1,6 @@
 ## `Description`
 
-OpenAI plugin for QML or a library for C++ that could be used as a templete in Qt-based projects.
+OpenAI plugin for QML or a library for C++ that could be used in Qt-based projects.
 
 ## `Features`
 
