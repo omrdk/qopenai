@@ -1,40 +1,46 @@
+```qml
+  import QOpenAI
+
+  QOpenAICompletions {
+    id: openAICompletions
+
+    endPoint: QOpenAI.Completions
+    model: "text-davinci-003"
+
+    onRequestFinished: function (jsonObject) {
+      const content = jsonObject.choices[0].text
+      console.log("Content:", content)
+    }
+
+    onRequestError: function (error) {
+      console.log("Error:", error)
+    }
+  }
+
+  // somewhere in the Qml code
+  onSendClicked: function (prompt) {
+    openAICompletions.prompt = prompt
+    openAICompletions.sendRequest()
+  }
 ```
-impprt QOpenAI
 
-QOpenAICompletions {
-  id: openAICompletions
+```c++
+  #include <QOpenAICompletions.h>
 
-  endPoint: QOpenAI.Completions
-  model: "text-davinci-003"
-  prompt: ""
-  suffix: ""
-  maxTokens: 16
-  temperature: 1.0
-  topP: 1.0
-  n: 1
-  stream: false
-  logProbs: 0
-  echo: false
-  stop: ""
-  presencePenalty: 0.0
-  frequencyPenalty: 0.0
-  bestOf: 1
-  logitBias: []
-  user: ""
+  // somewhere in the C++ code, make sure the instance is in scope
+  QOpenAICompletions completions;
+  completions.setEndPoint(QOpenAI::EndPoints::Completions);
+  completions.setModel("text-davinci-003");
+  completions.setPrompt("I am a");
 
-  onRequestFinished: function (jsonObject) {
-    const content = jsonObject.choices[0].text
-    console.log("Message:", content)
-  }
+  connect(&completions, &QOpenAICompletions::requestFinished, this, [&](const QJsonObject& response) {
+    QString content = response.value("choices").toArray()[0].toObject().value("text").toString();
+    qDebug() << content;
+  });
 
-  onRequestError: function (error) {
-    console.log("Error message:", error)
-  }
-}
+  connect(&completions, &QOpenAICompletions::requestError, this, [&](const QString& error) {
+    qDebug() << error;
+  });
 
-// somewhere in the Qml code
-onSendClicked: function (prompt) {
-  openAIChat.prompt = prompt
-  openAIChat.sendRequest()
-}
+  completions.sendRequest();
 ```

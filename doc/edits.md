@@ -1,29 +1,48 @@
+```qml
+  import QOpenAI
+
+  QOpenAIEdits {
+    id: openAIEdits
+
+    endPoint: QOpenAI.Edits
+    model: "text-davinci-edit-001" // or code-davinci-edit-001
+    instruction: chatPage.instructionItem.text
+
+    onRequestFinished: function (jsonObject) {
+      const content = jsonObject.choices[0].text
+      console.log("Content:", content)
+    }
+
+    onRequestError: function (error) {
+      console.log("Error:", error)
+    }
+  }
+
+  // somewhere in the Qml code
+  onSendClicked: function (input) {
+    openAIEdits.input = input
+    openAIEdits.sendRequest()
+  }
 ```
-import QOpenAI
 
-QOpenAIEdits {
-  id: openAIEdits
+```c++
+  #include <QOpenAIEdits.h>
 
-  endPoint: QOpenAI.Edits
-  model: "text-davinci-edit-001" // code-davinci-edit-001
-  input: ""
-  instruction: "Fix the grammer"
-  n: 1
-  temperature: 1.0
-  topP: 1.0
+  // somewhere in the C++ code, make sure the instance is in scope
+  QOpenAIEdits edits;
+  edits.setEndPoint(QOpenAI::EndPoints::Edits);
+  edits.setModel("text-davinci-edit-001");  // or code-davinci-edit-001
+  edits.setInstruction("Fix the grammer.");
+  edits.setInput("I has been doing sth.");
 
-  onRequestFinished: function (jsonObject) {
-    const content = jsonObject.choices[0].text
-    console.log("Message:", content)
-  }
+  connect(&edits, &QOpenAIEdits::requestFinished, this, [&](const QJsonObject& response) {
+    QString content = responseJson.object().value("choices").toArray()[0].toObject().value("text").toString();
+    qDebug() << content;
+  });
 
-  onRequestError: function (error) {
-    console.log("Error message:", error)
-  }
+  connect(&edits, &QOpenAIEdits::requestError, this, [&](const QString& error) {
+    qDebug() << error;
+  });
 
-// somewhere in the Qml code
-onSendClicked: function (input) {
-  openAIEdits.input = input
-  openAIEdits.sendRequest()
-}
+  edits.sendRequest();
 ```

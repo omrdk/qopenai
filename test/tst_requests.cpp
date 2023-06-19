@@ -51,22 +51,22 @@ void EndPointRequest::testCompletionsRequest() {
 }
 
 void EndPointRequest::testChatCompletionsRequest() {
-    QOpenAIChat chatCompletions;
-    chatCompletions.setEndPoint(QOpenAI::EndPoints::ChatCompletions);
-    chatCompletions.setModel("gpt-3.5-turbo");
-    chatCompletions.setSystemMessage("Act as a friend.");
-    chatCompletions.getMessageModel()->insertMessage("What is up?", QOpenAIMessage::Role::User);
+QOpenAIChat chatCompletions;
+chatCompletions.setEndPoint(QOpenAI::EndPoints::ChatCompletions);
+chatCompletions.setModel("gpt-3.5-turbo");
+chatCompletions.setSystemMessage("Act as a friend.");
+chatCompletions.getMessageModel()->insertMessage("What is up?", QOpenAIMessage::Role::User);
 
-    QSignalSpy finishedSpy(&chatCompletions, &QOpenAIChat::requestFinished);
-    QSignalSpy errorSpy(&chatCompletions, &QOpenAIChat::requestError);
+QSignalSpy finishedSpy(&chatCompletions, &QOpenAIChat::requestFinished);
+QSignalSpy errorSpy(&chatCompletions, &QOpenAIChat::requestError);
 
-    chatCompletions.sendRequest();
-    finishedSpy.wait(10000);
+chatCompletions.sendRequest();
+finishedSpy.wait(10000);
 
-    if (!errorSpy.isEmpty()) {
-        QString error = errorSpy.at(0).at(0).toString();
-        QFAIL(error.toStdString().c_str());
-    }
+if (!errorSpy.isEmpty()) {
+    QString error = errorSpy.at(0).at(0).toString();
+    QFAIL(error.toStdString().c_str());
+}
 }
 
 void EndPointRequest::testEditsRequest() {

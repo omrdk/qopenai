@@ -1,19 +1,19 @@
 ## `Description`
 
-OpenAI plugin for QML or a library for C++ that could be used as a templete in Qt-based projects.
+OpenAI plugin for QML or a library for C++ that could be used in Qt-based projects.
 
 ## `Features`
 
-- [x] [Completions](https://github.com/omrdk/qopenai/documentation/completions.md)
-- [X] [Chat Completions](https://github.com/omrdk/qopenai/documentation/chatCompletions.md)
-- [X] [Edits](https://github.com/omrdk/qopenai/documentation/edits.md)
-- [x] [Image Generations](https://github.com/omrdk/qopenai/documentation/imageGenerations.md)
-- [x] [Image Edits](https://github.com/omrdk/qopenai/documentation/imageEdits.md)
-- [x] [Image Variations](https://github.com/omrdk/qopenai/documentation/imageVariations.md) 
-- [x] [Embeddings](https://github.com/omrdk/qopenai/documentation/embeddings.md) 
-- [x] [Transcriptions](https://github.com/omrdk/qopenai/documentation/transscriptions.md) 
-- [x] [Translations](https://github.com/omrdk/qopenai/documentation/translations.md) 
-- [x] [Moderations](https://github.com/omrdk/qopenai/documentation/moderations.md) 
+- [x] [Completions](https://github.com/omrdk/qopenai/tree/master/doc/completions.md)
+- [X] [Chat Completions](https://github.com/omrdk/qopenai/tree/master/doc/chat_completions.md)
+- [X] [Edits](https://github.com/omrdk/qopenai/tree/master/doc/edits.md)
+- [x] [Image Generations](https://github.com/omrdk/qopenai/tree/master/doc/image_generations.md)
+- [x] [Image Edits](https://github.com/omrdk/qopenai/tree/master/doc/image_edits.md)
+- [x] [Image Variations](https://github.com/omrdk/qopenai/tree/master/doc/image_variations.md) 
+- [x] [Embeddings](https://github.com/omrdk/qopenai/tree/master/doc/embeddings.md) 
+- [x] [Transcriptions](https://github.com/omrdk/qopenai/tree/master/doc/transcriptions.md) 
+- [x] [Translations](https://github.com/omrdk/qopenai/tree/master/doc/translations.md) 
+- [x] [Moderations](https://github.com/omrdk/qopenai/tree/master/doc/moderations.md) 
 - [ ] [Files]() 
 - [ ] [Fine Tunes]() 
 
