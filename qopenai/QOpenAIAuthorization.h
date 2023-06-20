@@ -8,7 +8,7 @@ class QOpenAIAuthorization
 {
 public:
     QOpenAIAuthorization() = default;
-    ~QOpenAIAuthorization() {};
+    ~QOpenAIAuthorization() {}
 
     QOpenAIAuthorization(QOpenAIAuthorization const&) = delete;
     void operator=(QOpenAIAuthorization const&) = delete;

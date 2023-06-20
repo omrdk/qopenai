@@ -7,7 +7,7 @@
 /*!
  * \brief The QOpenAIAudio class responsible for the `transcriptions` and `translations` endpoints.
  * The only difference between the endpoints is `language` property, distinction has been made in
- * sendRequest() method with checking instance's endpoint.
+ * sendRequest() method by checking endpoint property.
  */
 
 class QOpenAIAudio : public QOpenAI

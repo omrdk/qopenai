@@ -129,7 +129,6 @@ Window {
     id: openAIImageEdits
 
     endPoint: QOpenAI.ImageEdits
-    prompt: chatPage.inputItem.textAreaItem.text // take care of this
 
     onRequestFinished: function (jsonObject) {
       let imageUrls = jsonObject.data

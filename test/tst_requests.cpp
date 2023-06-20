@@ -16,8 +16,8 @@ class EndPointRequest : public QObject
     Q_OBJECT
 
 public:
-    EndPointRequest() {};
-    ~EndPointRequest() {};
+    EndPointRequest() {}
+    ~EndPointRequest() {}
 
 private slots:
     void testCompletionsRequest();
@@ -51,22 +51,22 @@ void EndPointRequest::testCompletionsRequest() {
 }
 
 void EndPointRequest::testChatCompletionsRequest() {
-QOpenAIChat chatCompletions;
-chatCompletions.setEndPoint(QOpenAI::EndPoints::ChatCompletions);
-chatCompletions.setModel("gpt-3.5-turbo");
-chatCompletions.setSystemMessage("Act as a friend.");
-chatCompletions.getMessageModel()->insertMessage("What is up?", QOpenAIMessage::Role::User);
+    QOpenAIChat chatCompletions;
+    chatCompletions.setEndPoint(QOpenAI::EndPoints::ChatCompletions);
+    chatCompletions.setModel("gpt-3.5-turbo");
+    chatCompletions.setSystemMessage("Act as a friend.");
+    chatCompletions.getMessageModel()->insertMessage("What is up?", QOpenAIMessage::Role::User);
 
-QSignalSpy finishedSpy(&chatCompletions, &QOpenAIChat::requestFinished);
-QSignalSpy errorSpy(&chatCompletions, &QOpenAIChat::requestError);
+    QSignalSpy finishedSpy(&chatCompletions, &QOpenAIChat::requestFinished);
+    QSignalSpy errorSpy(&chatCompletions, &QOpenAIChat::requestError);
 
-chatCompletions.sendRequest();
-finishedSpy.wait(10000);
+    chatCompletions.sendRequest();
+    finishedSpy.wait(10000);
 
-if (!errorSpy.isEmpty()) {
-    QString error = errorSpy.at(0).at(0).toString();
-    QFAIL(error.toStdString().c_str());
-}
+    if (!errorSpy.isEmpty()) {
+        QString error = errorSpy.at(0).at(0).toString();
+        QFAIL(error.toStdString().c_str());
+    }
 }
 
 void EndPointRequest::testEditsRequest() {
@@ -145,7 +145,7 @@ void EndPointRequest::testTransciptions() {
     QOpenAIAudio transcriptions;
     transcriptions.setEndPoint(QOpenAI::EndPoints::Transcriptions);
     transcriptions.setModel("whisper-1");
-    transcriptions.setFile(QDir::currentPath() + "/assets/audio.m4a"); // extension depend on OS since default selected
+    transcriptions.setFile(QDir::currentPath() + "/assets/audio.m4a");
     transcriptions.setLanguage("tr");
 
     QSignalSpy finishedSpy(&transcriptions, &QOpenAIAudio::requestFinished);
@@ -164,7 +164,7 @@ void EndPointRequest::testTranslations() {
     QOpenAIAudio translations;
     translations.setEndPoint(QOpenAI::EndPoints::Translations);
     translations.setModel("whisper-1");
-    translations.setFile(QDir::currentPath() + "/assets/audio.m4a"); // extension depend on OS since default selected
+    translations.setFile(QDir::currentPath() + "/assets/audio.m4a");
 
     QSignalSpy finishedSpy(&translations, &QOpenAIAudio::requestFinished);
     QSignalSpy errorSpy(&translations, &QOpenAIAudio::requestError);

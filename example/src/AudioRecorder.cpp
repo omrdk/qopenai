@@ -25,7 +25,7 @@ AudioRecorder::AudioRecorder(QObject *parent) : QObject{parent} {
         if(_audioRecorder.recorderState() != QMediaRecorder::StoppedState) {
             _audioRecorder.stop();
         }
-        qDebug() << "'Error:" << error << " " << errorString;
+        qDebug() << "Error:" << error << " " << errorString;
     });
 }
 
