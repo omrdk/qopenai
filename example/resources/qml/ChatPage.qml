@@ -11,7 +11,7 @@ Rectangle {
   id: root
 
   // used only when the platform is iOS
-  property var nativeImagePickerObj: null
+  property var iOSNativeImagePickerObj: null
 
   property alias inputItem: chatInput
   property alias instructionItem: instruction
@@ -121,7 +121,6 @@ Rectangle {
           break
         case QOpenAI.Transcriptions:
         case QOpenAI.Translations:
-          console.log("Audio file:", content)
           openAIAudio.file = content
           openAIAudio.sendRequest()
           break
@@ -137,7 +136,7 @@ Rectangle {
 
       onLoadImageRequested: {
         if (Qt.platform.os === "ios") {
-          root.nativeImagePickerObj.open()
+          root.iOSNativeImagePickerObj.open()
         } else {
           loadImage.open()
         }
@@ -160,11 +159,11 @@ Rectangle {
     id: loadImage
 
     title: "Select an image"
-    nameFilters: ["Image files (*.png)", "All files (*.)"]
+    nameFilters: ["Image files (*.png)"]
     currentFolder: StandardPaths.standardLocations(StandardPaths.PicturesLocation)[0]
 
     onAccepted: {
-      selectedImagePopup.source = loadImage.selectedFile.toString().replace("file://", "")
+      selectedImagePopup.imageItem.source = loadImage.selectedFile
       selectedImagePopup.open()
     }
   }
@@ -187,65 +186,55 @@ Rectangle {
     alphaChannelCanBeModified: endPoints.currentEndpoint === QOpenAI.ImageEdits
 
     onAcceptClicked: {
-      if (endPoints.currentEndpoint === QOpenAI.ImageEdits && instruction.text === "") {
-        return
-      }
       switch (endPoints.currentEndpoint) {
       case QOpenAI.ImageEdits:
-        //openAIImageEdits.image = source
-        openAIImageEdits.prompt = instruction.text
-        openAIImageEdits.sendRequest()
-        break
-      case QOpenAI.ImageVariations:
-        if (!interactiveImageItem.isFormatSupported(source)) {
-          // TODO: error
+      {
+        if (instruction.text === "") {
           return
         }
-        const image = interactiveImageItem.convertToPng(source)
-        openAIImageVariations.image = image
-        openAIImageVariations.sendRequest()
-        break
+        openAIImageEdits.image = imageItem.imagePath
+        openAIImageEdits.mask = imageItem.maskPath
+        openAIImageEdits.prompt = instruction.text
+        openAIImageEdits.sendRequest()
+        chatInput.textAreaItem.clear()
       }
-      chatInput.textAreaItem.clear()
-      if (Qt.platform.os === "ios") {
-        root.nativeImagePickerObj.selectedImage = ""
-      } else {
-        source = ""
+      break
+      case QOpenAI.ImageVariations:
+      {
+        openAIImageVariations.image = imageItem.source
+        openAIImageVariations.sendRequest()
+      }
+      break
       }
       close()
     }
 
     onCancelClicked: {
-      if (Qt.platform.os === "ios") {
-        root.nativeImagePickerObj.selectedImage = ""
-      } else {
-        source = ""
-      }
+      close()
     }
   }
 
   // iOS native dialog item dynamically created to access photos when the platform is iOS
   Component.onCompleted: {
     if (Qt.platform.os === "ios") {
-      root.nativeImagePickerObj = Qt.createQmlObject(`
-                                                     import ImagePicker 1.0
+      root.iOSNativeImagePickerObj = Qt.createQmlObject(`
+                                                        import ImagePicker 1.0
 
-                                                     ImagePicker {
-                                                     id: imagePicker
-                                                     }
-                                                     `, root, "imagePicker")
+                                                        ImagePicker {
+                                                        id: imagePicker
+                                                        }
+                                                        `, root, "imagePicker")
     }
   }
 
   // capture photo path
   Connections {
-    id: nativeImagePickerHandler
-    target: root.nativeImagePickerObj
-    enabled: root.nativeImagePickerObj !== null
+    id: iOSNativeImagePickerHandler
+    target: root.iOSNativeImagePickerObj
+    enabled: root.iOSNativeImagePickerObj !== null
 
     function onSelectedImageChanged(selectedImage) {
-      selectedImagePopup.source = selectedImage
-      console.log("Selected image:", selectedImage)
+      selectedImagePopup.imageItem.source = selectedImage
       selectedImagePopup.open()
     }
   }

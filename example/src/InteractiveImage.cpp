@@ -15,9 +15,10 @@ QString InteractiveImage::getSource() const {
 }
 
 void InteractiveImage::setSource(const QString &source) {
-    _source = source;
-    updateImage();
-    emit sourceChanged() ;
+    QUrl sourceUrl(source);
+    _source = sourceUrl.toLocalFile();
+    emit sourceChanged();
+    prepareImage();
     update();
 }
 
@@ -72,7 +73,7 @@ void InteractiveImage::touchEvent(QTouchEvent *event)
     }
 }
 
-void InteractiveImage::updateImage()
+void InteractiveImage::prepareImage()
 {
     if(!_source.isEmpty()) {
         _image = QImage(width(), height(), QImage::Format_ARGB32);
@@ -92,37 +93,4 @@ void InteractiveImage::createDuplicates()
     _maskPath = tempLocation + "/" + inputFile.completeBaseName() + "_mask." + inputFile.suffix();
     _image.save(_imagePath);
     _image.save(_maskPath);
-    emit duplicateImagesCreated(_imagePath, _maskPath);
 }
-
-bool InteractiveImage::isFormatSupported(const QString &imagePath) const {
-    QImageReader imageReader(imagePath);
-    const auto format = imageReader.format();
-    if(QImageWriter::supportedImageFormats().contains(format)) {
-        return true;
-    }
-    return false;
-}
-
-QString InteractiveImage::convertToPng(const QString &imagePath) {
-    bool isSuffixIsPng = isPngImage(imagePath);
-    if(isSuffixIsPng) {
-        return imagePath;
-    }
-    QFileInfo inputFile(imagePath);
-    QString outputFilePath = inputFile.path() + "/" + inputFile.completeBaseName() + "." + inputFile.suffix();
-    QImage image(imagePath);
-    image.save(outputFilePath, "png");
-    return outputFilePath;
-}
-
-bool InteractiveImage::isPngImage(const QString &imagePath) const {
-    QImageReader imageReader(imagePath);
-    const auto format = imageReader.format();
-    if(format == "png") {
-        return true;
-    }
-    return false;
-}
-
-

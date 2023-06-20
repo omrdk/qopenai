@@ -14,9 +14,9 @@
 class InteractiveImage : public QQuickPaintedItem
 {
     Q_OBJECT
-    Q_PROPERTY(QString source READ getSource WRITE setSource NOTIFY sourceChanged);
-    Q_PROPERTY(QString imagePath MEMBER _imagePath NOTIFY imagePathChanged);
-    Q_PROPERTY(QString maskPath MEMBER _maskPath NOTIFY maskPathChanged);
+    Q_PROPERTY(QString source READ getSource WRITE setSource NOTIFY sourceChanged)
+    Q_PROPERTY(QString imagePath MEMBER _imagePath NOTIFY imagePathChanged)
+    Q_PROPERTY(QString maskPath MEMBER _maskPath NOTIFY maskPathChanged)
     QML_ELEMENT
 
 public:
@@ -26,9 +26,6 @@ public:
 
     QString getSource() const;
     void setSource(const QString& source);
-
-    Q_INVOKABLE QString convertToPng(const QString& imagePath);
-    Q_INVOKABLE bool isFormatSupported(const QString& imagePath) const;
 
 protected:
     void mousePressEvent(QMouseEvent * event) override;
@@ -44,16 +41,14 @@ private:
     QString _imagePath = "";
     QString _maskPath = "";
 
-    bool isPngImage(const QString& imagePath) const;
     void removeAlphaFromImage(const QPointF& point);
-    void updateImage();
+    void prepareImage();
     void createDuplicates();
 
 signals:
     void sourceChanged();
     void imagePathChanged();
     void maskPathChanged();
-    void duplicateImagesCreated(const QString& imagePath, const QString& maskPath);
 
 };
 
