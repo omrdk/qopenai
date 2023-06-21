@@ -1,6 +1,6 @@
 ## `Description`
 
-OpenAI plugin for QML or a library for C++ that could be used in Qt-based projects.
+Unofficial OpenAI QML plugin/C++ library that could be used in Qt-based projects.
 
 ## `Features`
 
@@ -44,6 +44,4 @@ target_include_directories(qopenai PUBLIC ${CMAKE_SOURCE_DIR}/qopenai "${CMAKE_B
 ```
 
 ## `Appendix`
-- Example app tested on Windows, OSX and iOS platforms with the Qt's 6.5.0 kit.
-- Image and audio responses may take a bit more time than expected so wait for it.
-
+- Example app tested on Windows, OSX and iOS platforms with Qt's 6.5.0 kit.
