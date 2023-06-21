@@ -6,6 +6,8 @@ set(CMAKE_AUTOMOC ON)
 set(CMAKE_AUTORCC ON)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
+#option(TESTS "Enable tests" OFF)
+
 find_package(Qt6 6.2 REQUIRED COMPONENTS Quick Core Network Multimedia Gui)
 
 set(SOURCES src/main.cpp)
@@ -42,10 +44,11 @@ qt6_add_qml_module(appexample
 
 include_directories(inc)
 
-#
 add_subdirectory(${CMAKE_SOURCE_DIR}/../qopenai ${CMAKE_BINARY_DIR}/qopenai)
 
-add_subdirectory(${CMAKE_SOURCE_DIR}/../test ${CMAKE_BINARY_DIR}/test)
+#if(TESTS)
+#    add_subdirectory(${CMAKE_SOURCE_DIR}/../test ${CMAKE_BINARY_DIR}/test)
+#endif()
 
 if(APPLE)
     set_target_properties(appexample PROPERTIES
@@ -71,6 +74,15 @@ endif()
 
 if(WIN32)
     set_target_properties(appexample PROPERTIES WIN32_EXECUTABLE TRUE)
+endif()
+
+if(ANDROID)
+    message("${CMAKE_CURRENT_SOURCE_DIR}/platforms/android")
+    set_target_properties(appexample PROPERTIES
+        QT_ANDROID_PACKAGE_SOURCE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/platforms/android
+    )
+#    set_property(TARGET appexample APPEND PROPERTY QT_ANDROID_PACKAGE_SOURCE_DIR
+#    ${CMAKE_CURRENT_SOURCE_DIR}/platforms/android)
 endif()
 
 # uncomment if you'll instantiate openai classes in C++

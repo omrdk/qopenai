@@ -41,5 +41,5 @@ qt6_add_qml_module(${PROJECT_NAME}
     RESOURCE_PREFIX /
 )
 
-target_link_libraries(${PROJECT_NAME} PUBLIC Qt::Quick Qt::Core Qt::Network Qt::Multimedia)
+target_link_libraries(${PROJECT_NAME} PUBLIC Qt::Quick Qt::Core Qt::Network Qt::Multimedia EGL GLESv2)
 

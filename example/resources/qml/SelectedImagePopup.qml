@@ -1,14 +1,13 @@
 import QtQuick
 import QtQuick.Layouts
 
-import example
-import QOpenAI
+import example 1.0
+import QOpenAI 1.0
 
 PopupItem {
   id: root
 
-  property alias interactiveImageItem: interactiveImage
-  property string source: ""
+  property alias imageItem: interactiveImage
   property bool alphaChannelCanBeModified: false
 
   signal acceptClicked
@@ -25,14 +24,7 @@ PopupItem {
       Layout.fillWidth: true
       Layout.fillHeight: true
 
-      source: root.source
-
       enabled: root.alphaChannelCanBeModified
-
-      onDuplicateImagesCreated: function (imagePath, maskPath) {
-        openAIImageEdits.image = imagePath
-        openAIImageEdits.mask = maskPath
-      }
     }
 
     RowLayout {
@@ -55,7 +47,6 @@ PopupItem {
 
         onClicked: {
           root.cancelClicked()
-          root.close()
         }
       }
 
