@@ -32,11 +32,11 @@ add_subdirectory(qopenai)
 ```
 - Link required Qt modules and `qopenaiplugin` to the target:
 ```
-target_link_libraries(appexample PRIVATE Qt::Quick Qt::Core Qt::Network Qt::Multimedia qopenaiplugin)
+target_link_libraries(appexample PRIVATE qopenaiplugin)
 ```
 - Should you be interested in using this plugin as a library and instantiate them in C++, link it to the target with qopenai name instead of qopenaiplugin as below:
 ```
-target_link_libraries(appexample PRIVATE Qt::Quick Qt::Core Qt::Network Qt::Multimedia qopenai)
+target_link_libraries(appexample PRIVATE qopenai)
 ```
 - Then include directories for target to be able to `#include` and instantiate them in C++:
 ```
@@ -44,6 +44,6 @@ target_include_directories(qopenai PUBLIC ${CMAKE_SOURCE_DIR}/qopenai "${CMAKE_B
 ```
 
 ## `Appendix`
-- Example app tested on OSX and iOS platforms with the Qt's 6.5.0 verion.
-- Image and audio endpoints(if recorded audio is too long) may return responses a bit late than expected, so wait for it.
+- Example app tested on Windows, OSX and iOS platforms with the Qt's 6.5.0 kit.
+- Image and audio responses may take a bit more time than expected so wait for it.
 
