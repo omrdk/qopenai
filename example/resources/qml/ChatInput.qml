@@ -2,8 +2,8 @@ import QtQuick
 import QtQuick.Controls
 import QtQuick.Layouts
 
-import example
-import QOpenAI
+import example 1.0
+import QOpenAI 1.0
 
 Row {
   id: root

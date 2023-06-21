@@ -3,21 +3,16 @@ import QtQuick.Window
 import QtQuick.Controls
 import Qt5Compat.GraphicalEffects
 
-import example
-import QOpenAI
+import example 1.0
+import QOpenAI 1.0
 
 Window {
   id: appWindow
 
   property bool isMobilePlatform: Qt.platform.os === "android" || Qt.platform.os === "ios"
 
-  width: isMobilePlatform ? Screen.width * Screen.pixelDensity : 360
-  height: isMobilePlatform ? Screen.height * Screen.pixelDensity : 640
-
-  minimumHeight: isMobilePlatform ? Screen.width : 640
-  maximumHeight: minimumHeight
-  minimumWidth: isMobilePlatform ? Screen.width : 360
-  maximumWidth: minimumWidth
+  width: isMobilePlatform ? Screen.width : 360
+  height: isMobilePlatform ? Screen.height : 640
 
   visible: true
   title: qsTr("My AI")
