@@ -14,8 +14,6 @@ Unofficial OpenAI QML plugin/C++ library that could be used in Qt-based projects
 - [x] [Transcriptions](https://github.com/omrdk/qopenai/tree/master/doc/transcriptions.md) 
 - [x] [Translations](https://github.com/omrdk/qopenai/tree/master/doc/translations.md) 
 - [x] [Moderations](https://github.com/omrdk/qopenai/tree/master/doc/moderations.md) 
-- [ ] [Files]() 
-- [ ] [Fine Tunes]() 
 
 ## `Authentication`
 
