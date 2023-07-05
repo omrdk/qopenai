@@ -1,6 +1,6 @@
 ## `Description`
 
-Unofficial OpenAI QML plugin/C++ library that could be used in Qt-based projects.
+An OpenAI QML plugin that could be used in Qt-based projects.
 
 ## `Features`
 
