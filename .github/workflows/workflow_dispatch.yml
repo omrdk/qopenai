@@ -1,0 +1,21 @@
+name: Manual action workflow
+
+on:
+  workflow_dispatch
+
+jobs:
+  run_workflow:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Set up Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: '3.x'
+      - name: Install pip requests
+        run: pip install requests
+      - name: Create test_env.ini file
+        run: echo "[test_env]" > test_env.ini
+      - name: Run tests
+        run: python -m unittest discover
+
