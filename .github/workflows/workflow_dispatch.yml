@@ -1,0 +1,10 @@
+name: Manual action workflow
+
+on:
+  workflow_dispatch
+
+jobs:
+  run_workflow:
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo "That's a magic mann"
