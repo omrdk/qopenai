@@ -43,3 +43,5 @@ target_include_directories(qopenai PUBLIC ${CMAKE_SOURCE_DIR}/qopenai "${CMAKE_B
 
 ## `Appendix`
 - Example app tested on Windows, OSX and iOS platforms with Qt's 6.5.0 kit.
+
+[!["Buy Me A Coffee"](https://www.buymeacoffee.com/assets/img/custom_images/orange_img.png)](https://buymeacoffee.com/omrdk)
